@@ -20,8 +20,7 @@ public class MuseumApiDataProviderService {
     public String getArtData(String query, String involvedMaker, String technique,
                              String datingPeriod, String pageNumber, String resultsPerPage,
                              Boolean imgOnly, String culture) {
-        System.out.println("itt még ok");
-        System.out.println(query);
+
         String response = webClientBuilder.build()
                 .get()
                 .uri(apiURL, uriBuilder -> uriBuilder
@@ -38,7 +37,6 @@ public class MuseumApiDataProviderService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println("Api call finished");
         return response;
     }
 

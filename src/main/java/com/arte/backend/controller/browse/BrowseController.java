@@ -29,8 +29,7 @@ public class BrowseController {
                                 @RequestParam(required = false, name = "ps") String resultsPerPage,
                                 @RequestParam(required = false, name = "imgonly") Boolean imgOnly,
                                 @RequestParam(required = false, name = "culture") String culture) {
-        System.out.println("Im in returnartdata");
-        System.out.println("query = " + query);
+
         return museumApiDataProviderService.getArtData(query, involvedMaker, technique, datingPeriod,
                 pageNumber, resultsPerPage, imgOnly, culture);
     }
