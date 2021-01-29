@@ -4,6 +4,7 @@ import com.arte.backend.service.browse.BrowseService;
 import com.arte.backend.service.browse.MuseumApiDataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,7 +21,12 @@ public class BrowseController {
     }
 
     @GetMapping("/api/getArtData")
-    public String returnArtData() {
-        return museumApiDataProviderService.getArtData();
+    public String returnArtData(@RequestParam(required = false, name = "q") String query,
+                                @RequestParam(required = false, name = "involvedMaker") String involvedMaker,
+                                @RequestParam(required = false, name = "technique") String technique,
+                                @RequestParam(required = false, name = "datingPeriod") String datingPeriod) {
+        System.out.println("Im in returnartdata");
+        System.out.println("query = " + query);
+        return museumApiDataProviderService.getArtData(query, involvedMaker, technique, datingPeriod);
     }
 }
