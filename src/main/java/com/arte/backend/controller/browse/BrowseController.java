@@ -3,6 +3,7 @@ package com.arte.backend.controller.browse;
 import com.arte.backend.service.browse.BrowseService;
 import com.arte.backend.service.browse.MuseumApiDataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class BrowseController {
         return browseService.browse();
     }
 
+    @CrossOrigin
     @GetMapping("/api/getArtData")
     public String returnArtData(@RequestParam(required = false, name = "q") String query,
                                 @RequestParam(required = false, name = "involvedMaker") String involvedMaker,
