@@ -24,9 +24,14 @@ public class BrowseController {
     public String returnArtData(@RequestParam(required = false, name = "q") String query,
                                 @RequestParam(required = false, name = "involvedMaker") String involvedMaker,
                                 @RequestParam(required = false, name = "technique") String technique,
-                                @RequestParam(required = false, name = "datingPeriod") String datingPeriod) {
+                                @RequestParam(required = false, name = "datingPeriod") String datingPeriod,
+                                @RequestParam(required = false, name = "p") String pageNumber,
+                                @RequestParam(required = false, name = "ps") String resultsPerPage,
+                                @RequestParam(required = false, name = "imgonly") Boolean imgOnly,
+                                @RequestParam(required = false, name = "culture") String culture) {
         System.out.println("Im in returnartdata");
         System.out.println("query = " + query);
-        return museumApiDataProviderService.getArtData(query, involvedMaker, technique, datingPeriod);
+        return museumApiDataProviderService.getArtData(query, involvedMaker, technique, datingPeriod,
+                pageNumber, resultsPerPage, imgOnly, culture);
     }
 }

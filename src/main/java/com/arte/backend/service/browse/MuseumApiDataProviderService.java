@@ -17,12 +17,18 @@ public class MuseumApiDataProviderService {
 
     private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection?key=Gz1ZRsyI&format=json";
 
-    public String getArtData(String query, String involvedMaker, String technique, String datingPeriod) {
+    public String getArtData(String query, String involvedMaker, String technique,
+                             String datingPeriod, String pageNumber, String resultsPerPage,
+                             Boolean imgOnly, String culture) {
         System.out.println("itt még ok");
         System.out.println(query);
         String response = webClientBuilder.build()
                 .get()
                 .uri(apiURL, uriBuilder -> uriBuilder
+                        .queryParamIfPresent("q", Optional.ofNullable(pageNumber))
+                        .queryParamIfPresent("q", Optional.ofNullable(resultsPerPage))
+                        .queryParamIfPresent("q", Optional.ofNullable(imgOnly))
+                        .queryParamIfPresent("q", Optional.ofNullable(culture))
                         .queryParamIfPresent("q", Optional.ofNullable(query))
                         .queryParamIfPresent("involvedMaker", Optional.ofNullable(involvedMaker))
                         .queryParamIfPresent("technique", Optional.ofNullable(technique))
@@ -35,6 +41,5 @@ public class MuseumApiDataProviderService {
         System.out.println("Api call finished");
         return response;
     }
-
 
 }
