@@ -16,10 +16,16 @@ public class QuizGenerator {
         this.apiData = apiData;
     }
 
-    public QuizModel generateQuiz(QuestionModel questions, QuizModel quiz) {
+    public QuizModel generateQuiz(QuizModel quiz) {
+        QuestionModel questions = new QuestionModel();
+        List<QuestionModel> questionModelList = new ArrayList<>();
         List<String> incorrectAnswers = new ArrayList<>();
         int counter = 0;
+        int questionCounter = 1;
         for (ArtObject artObject : apiData.getArtData()) {
+            if (questionCounter % 4 == 0 ) {
+                questions = new QuestionModel();
+            }
             if (counter == 0) {
                 questions.setCorrectAnswer(artObject.getTitle());
                 questions.setImgUrl(artObject.getWebImage().getUrl());
@@ -29,10 +35,15 @@ public class QuizGenerator {
             else {
                 incorrectAnswers.add(artObject.getTitle());
             }
+            questionCounter++;
+
+            if (questionCounter % 4 == 0) {
+                questions.setIncorrectAnswers(incorrectAnswers);
+                questionModelList.add(questions);
+                counter = 0;
+            }
         }
-        questions.setIncorrectAnswers(incorrectAnswers);
-        List<QuestionModel> questionModelList = new ArrayList<>();
-        questionModelList.add(questions);
+
         quiz.setResults(questionModelList);
 
         return quiz;

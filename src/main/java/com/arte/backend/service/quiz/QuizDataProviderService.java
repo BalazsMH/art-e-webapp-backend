@@ -28,7 +28,7 @@ public class QuizDataProviderService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println(response);
+
         return response;
     }
 }

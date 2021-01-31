@@ -24,6 +24,6 @@ public class QuizController {
     @GetMapping("/test/quiz")
     public String returnQuizData() {
 
-        return quizDataProviderService.getDataForQuiz("Rembrandt+van+Rijn", "2", "4", true);
+        return "a";
     }
 }
