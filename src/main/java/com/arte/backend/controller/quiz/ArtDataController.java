@@ -17,6 +17,7 @@ public class ArtDataController {
     @Autowired
     QuizDataProviderService quizDataProviderService;
 
+    @CrossOrigin
     @PostMapping
     public String getQuiz() throws JsonProcessingException {
         String artObject = quizDataProviderService.getDataForQuiz("Rembrandt+van+Rijn", "2", "20", true);
