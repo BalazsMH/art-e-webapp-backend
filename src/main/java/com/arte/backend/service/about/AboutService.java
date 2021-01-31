@@ -20,6 +20,8 @@ public class AboutService {
                             "can check the actual position in the global scoreboard.")
                     .license("Rijksmuseum API", "https://www.rijksmuseum.nl/en/research/conduct-research/data/policy")
                     .license("React infinite scroll component", "https://github.com/ankeetmaini/react-infinite-scroll-component/blob/master/license")
+                    .license("Font Awesome icon set", "https://fontawesome.com/license/free")
+                    .license("Grommet", "https://github.com/grommet/grommet/blob/master/LICENSE")
                     .build();
     }
 }
