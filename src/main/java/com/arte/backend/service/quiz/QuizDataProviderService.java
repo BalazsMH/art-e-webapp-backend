@@ -13,9 +13,8 @@ public class QuizDataProviderService {
 
     private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection?key=Gz1ZRsyI&format=json";
 
-    public String getDataForQuiz(String query, String involvedMaker, String technique,
-                             String datingPeriod, String pageNumber, String resultsPerPage,
-                             Boolean imgOnly, String culture) {
+    public String getDataForQuiz(String involvedMaker, String pageNumber, String resultsPerPage,
+                             Boolean imgOnly) {
 
         String response = webClientBuilder.build()
                 .get()
@@ -23,16 +22,13 @@ public class QuizDataProviderService {
                         .queryParamIfPresent("p", Optional.ofNullable(pageNumber))
                         .queryParamIfPresent("ps", Optional.ofNullable(resultsPerPage))
                         .queryParamIfPresent("imgonly", Optional.ofNullable(imgOnly))
-                        .queryParamIfPresent("culture", Optional.ofNullable(culture))
-                        .queryParamIfPresent("q", Optional.ofNullable(query))
                         .queryParamIfPresent("involvedMaker", Optional.ofNullable(involvedMaker))
-                        .queryParamIfPresent("technique", Optional.ofNullable(technique))
-                        .queryParamIfPresent("datingPeriod", Optional.ofNullable(datingPeriod))
                         .build()
                 )
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+        System.out.println(response);
         return response;
     }
 }

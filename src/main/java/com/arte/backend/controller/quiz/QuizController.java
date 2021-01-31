@@ -24,16 +24,8 @@ public class QuizController {
 
     @CrossOrigin
     @GetMapping("/api/quiz")
-    public String returnQuizData(@RequestParam(required = false, name = "q") String query,
-                                @RequestParam(required = false, name = "involvedMaker") String involvedMaker,
-                                @RequestParam(required = false, name = "technique") String technique,
-                                @RequestParam(required = false, name = "datingPeriod") String datingPeriod,
-                                @RequestParam(required = false, name = "p") String pageNumber,
-                                @RequestParam(required = false, name = "ps") String resultsPerPage,
-                                @RequestParam(required = false, name = "imgonly") Boolean imgOnly,
-                                @RequestParam(required = false, name = "culture") String culture) {
+    public String returnQuizData() {
 
-        return quizDataProviderService.getDataForQuiz(query, involvedMaker, technique, datingPeriod,
-                pageNumber, resultsPerPage, imgOnly, culture);
+        return quizDataProviderService.getDataForQuiz("Rembrandt+van+Rijn", "2", "4", true);
     }
 }
