@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class FavoritesModel {
-    private String title;
-    private String imageUrl;
-    private String objectId;
+    private String longTitle;
+    private WebImage headerImage;
+    private String objectNumber;
 }
