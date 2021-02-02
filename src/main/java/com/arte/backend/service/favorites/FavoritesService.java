@@ -46,4 +46,10 @@ public class FavoritesService {
         }
         return Optional.empty();
     }
+
+    public void deleteFavoriteByObjectId(String userId, String objectId) {
+        if (favorites.containsKey(userId)) {
+            favorites.get(userId).removeIf(artwork -> artwork.getObjectId().equals(objectId));
+        }
+    }
 }

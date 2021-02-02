@@ -4,10 +4,7 @@ import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.service.favorites.FavoritesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -24,5 +21,10 @@ public class FavoritesController {
     @PostMapping("/api/favorites/{userId}/{objectId}")
     public void addToFavorites(@PathVariable String userId, @PathVariable String objectId) throws JsonProcessingException {
         favoritesService.addToFavorites(userId, objectId);
+    }
+
+    @DeleteMapping("/api/favorites/{userId}/{objectId}")
+    public void deleteFavoriteByObjectId(@PathVariable String userId, @PathVariable String objectId) {
+        favoritesService.deleteFavoriteByObjectId(userId, objectId);
     }
 }
