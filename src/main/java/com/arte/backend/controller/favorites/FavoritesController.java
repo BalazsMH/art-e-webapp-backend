@@ -13,16 +13,19 @@ import java.util.Set;
 public class FavoritesController {
     private FavoritesService favoritesService;
 
+    @CrossOrigin
     @GetMapping("/api/favorites/{userId}")
     public Set<FavoritesModel> getFavoritesByUserId(@PathVariable String userId) {
         return favoritesService.getFavoritesByUserId(userId);
     }
 
+    @CrossOrigin
     @PostMapping("/api/favorites/{userId}/{objectId}")
     public void addToFavorites(@PathVariable String userId, @PathVariable String objectId) throws JsonProcessingException {
         favoritesService.addToFavorites(userId, objectId);
     }
 
+    @CrossOrigin
     @DeleteMapping("/api/favorites/{userId}/{objectId}")
     public void deleteFavoriteByObjectId(@PathVariable String userId, @PathVariable String objectId) {
         favoritesService.deleteFavoriteByObjectId(userId, objectId);
