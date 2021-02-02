@@ -38,9 +38,9 @@ public class FavoritesService {
     private Optional<FavoritesModel> generateFavoriteFromObject(ArtObjectsList arts, String objectId) {
         if (arts != null) {
             FavoritesModel newFavorite = FavoritesModel.builder()
-                                                        .title(arts.getArtData().getTitle())
-                                                        .objectId(objectId)
-                                                        .imageUrl(arts.getArtData().getWebImage().getUrl())
+                                                        .longTitle(arts.getArtData().getLongTitle())
+                                                        .objectNumber(objectId)
+                                                        .headerImage(arts.getArtData().getWebImage())
                                                         .build();
             return Optional.of(newFavorite);
         }
@@ -49,7 +49,7 @@ public class FavoritesService {
 
     public void deleteFavoriteByObjectId(String userId, String objectId) {
         if (favorites.containsKey(userId)) {
-            favorites.get(userId).removeIf(artwork -> artwork.getObjectId().equals(objectId));
+            favorites.get(userId).removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
         }
     }
 }
