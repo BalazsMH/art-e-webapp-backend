@@ -13,7 +13,7 @@ public class QuizDataProviderService {
 
     private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection?key=Gz1ZRsyI&format=json";
 
-    public String getDataForQuiz(String involvedMaker, String pageNumber, String resultsPerPage,
+    public String getDataForQuiz(String pageNumber, String resultsPerPage,
                              Boolean imgOnly) {
 
         String response = webClientBuilder.build()
@@ -22,7 +22,6 @@ public class QuizDataProviderService {
                         .queryParamIfPresent("p", Optional.ofNullable(pageNumber))
                         .queryParamIfPresent("ps", Optional.ofNullable(resultsPerPage))
                         .queryParamIfPresent("imgonly", Optional.ofNullable(imgOnly))
-                        .queryParamIfPresent("involvedMaker", Optional.ofNullable(involvedMaker))
                         .build()
                 )
                 .retrieve()

@@ -4,8 +4,6 @@ import com.arte.backend.model.quiz.ArtObject;
 import com.arte.backend.model.quiz.ArtObjectsList;
 import com.arte.backend.model.quiz.QuestionModel;
 import com.arte.backend.model.quiz.QuizModel;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class QuizGenerator {
             if (counter == 0) {
                 questions.setCorrectAnswer(artObject.getTitle());
                 questions.setImgUrl(artObject.getWebImage().getUrl());
-                questions.setQuestion("What is the title of this picture");
+                questions.setQuestion("What is the title of this picture?");
                 counter++;
             }
             else {
