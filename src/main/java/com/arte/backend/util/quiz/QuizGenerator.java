@@ -4,9 +4,8 @@ import com.arte.backend.model.apiresponse.ArtObject;
 import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.quiz.QuestionModel;
 import com.arte.backend.model.quiz.QuizModel;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 public class QuizGenerator {
     private ArtObjectsList apiData;
@@ -20,19 +19,20 @@ public class QuizGenerator {
     public QuizModel generateQuiz(QuizModel quiz) {
         QuestionModel questions = new QuestionModel();
         List<QuestionModel> questionModelList = new ArrayList<>();
-        List<String> incorrectAnswers = new ArrayList<>();
+        Set<String> incorrectAnswers = new HashSet<>();
         String question = quizType.equals("detail") ? "title" : quizType;
 
         int counter = 0;
         int questionCounter = 1;
         for (ArtObject artObject : apiData.getArtData()) {
 
-            Map<String, String> quizAnswerTypes = Map.of("title",artObject.getTitle(), "detail", artObject.getTitle(), "maker", artObject.getPrincipalOrFirstMaker());
+            Map<String, String> quizAnswerTypes = Map.of("title", artObject.getTitle(), "detail", artObject.getTitle(), "maker", artObject.getPrincipalOrFirstMaker());
 
             if (counter == 0) {
                 questions.setCorrectAnswer(quizAnswerTypes.get(quizType));
                 questions.setImgUrl(artObject.getWebImage().getUrl());
-                questions.setQuestion("What is the " + question + " of this picture?");
+                String questionWord = (question.equals("maker") ? "Who" : "What");
+                questions.setQuestion(questionWord + " is the " + question + " of this picture?");
                 counter++;
             }
             else {
@@ -44,7 +44,7 @@ public class QuizGenerator {
                 questionModelList.add(questions);
                 counter = 0;
                 questions = new QuestionModel();
-                incorrectAnswers = new ArrayList<>();
+                incorrectAnswers = new HashSet<>();
             }
 
             questionCounter++;
