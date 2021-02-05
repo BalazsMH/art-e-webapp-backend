@@ -52,4 +52,17 @@ public class FavoritesService {
             favorites.get(userId).removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
         }
     }
+
+    public boolean isFavoriteByObjectId(String userId, String objectId) {
+        if (favorites.containsKey(userId)) {
+            long filteredSize = favorites.get(userId).stream()
+                    .filter(fav -> fav.getObjectNumber().equals(objectId))
+                    .count();
+
+            if (filteredSize == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
