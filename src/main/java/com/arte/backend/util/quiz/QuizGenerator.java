@@ -23,7 +23,6 @@ public class QuizGenerator {
         String question = quizType.equals("detail") ? "title" : quizType;
 
         int counter = 0;
-        int questionCounter = 1;
         for (ArtObject artObject : apiData.getArtData()) {
 
             Map<String, String> quizAnswerTypes = Map.of("title", artObject.getTitle(), "detail", artObject.getTitle(), "maker", artObject.getPrincipalOrFirstMaker());
@@ -39,15 +38,13 @@ public class QuizGenerator {
                 incorrectAnswers.add(quizAnswerTypes.get(quizType));
             }
 
-            if (questionCounter % 4 == 0) {
+            if (incorrectAnswers.size() == 3) {
                 questions.setIncorrectAnswers(incorrectAnswers);
                 questionModelList.add(questions);
                 counter = 0;
                 questions = new QuestionModel();
                 incorrectAnswers = new HashSet<>();
             }
-
-            questionCounter++;
         }
 
         quiz.setResults(questionModelList);
