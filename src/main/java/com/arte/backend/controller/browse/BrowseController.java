@@ -2,10 +2,7 @@ package com.arte.backend.controller.browse;
 
 import com.arte.backend.service.browse.MuseumApiDataProviderService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -13,7 +10,7 @@ public class BrowseController {
     MuseumApiDataProviderService museumApiDataProviderService;
 
     @CrossOrigin
-    @GetMapping("/api/getArtData")
+    @GetMapping("/getArtData")
     public String returnArtData(@RequestParam(required = false, name = "q") String query,
                                 @RequestParam(required = false, name = "involvedMaker") String involvedMaker,
                                 @RequestParam(required = false, name = "technique") String technique,
