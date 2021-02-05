@@ -1,29 +1,26 @@
 package com.arte.backend.service.browse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
+import static com.arte.backend.config.Global.API_COLLECTION_URL;
+
 
 @Service
+@AllArgsConstructor
 public class MuseumApiDataProviderService {
-
-    @Autowired
     private WebClient.Builder webClientBuilder;
-
-    private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection?key=Gz1ZRsyI&format=json";
-
+    
     public String getArtData(String query, String involvedMaker, String technique,
                              String datingPeriod, String pageNumber, String resultsPerPage,
                              Boolean imgOnly, String culture) {
 
         String response = webClientBuilder.build()
                 .get()
-                .uri(apiURL, uriBuilder -> uriBuilder
+                .uri(API_COLLECTION_URL, uriBuilder -> uriBuilder
                         .queryParamIfPresent("p", Optional.ofNullable(pageNumber))
                         .queryParamIfPresent("ps", Optional.ofNullable(resultsPerPage))
                         .queryParamIfPresent("imgonly", Optional.ofNullable(imgOnly))
@@ -39,5 +36,4 @@ public class MuseumApiDataProviderService {
                 .block();
         return response;
     }
-
 }

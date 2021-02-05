@@ -1,4 +1,4 @@
-package com.arte.backend.model.favorites;
+package com.arte.backend.model.apiresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

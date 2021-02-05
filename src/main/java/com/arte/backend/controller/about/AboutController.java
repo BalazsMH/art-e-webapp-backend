@@ -13,7 +13,7 @@ public class AboutController {
     private AboutService aboutService;
 
     @CrossOrigin
-    @GetMapping("/api/about")
+    @GetMapping("/about")
     public AboutModel aboutPage() {
         return aboutService.getAboutContent();
     }

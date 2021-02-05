@@ -1,26 +1,24 @@
 package com.arte.backend.service.details;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Service
-public class ArtDetailsProviderService {
+import static com.arte.backend.config.Global.*;
 
-    @Autowired
+@Service
+@AllArgsConstructor
+public class ArtDetailsProviderService {
     private WebClient.Builder webClientBuilder;
-    private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection";
-    private final String apiKey = "Gz1ZRsyI";
-    private final String format = "json";
 
     public String getArtDetails(String objectNumber) {
 
         String response = webClientBuilder.build()
                 .get()
-                .uri(apiURL, uriBuilder -> uriBuilder
+                .uri(API_SINGLE_ARTWORK_URL, uriBuilder -> uriBuilder
                         .pathSegment("{objectNumber}")
-                        .queryParam("key", apiKey)
-                        .queryParam("format", format)
+                        .queryParam("key", API_KEY)
+                        .queryParam("format", API_RESPONSE_FORMAT)
                         .build(objectNumber)
                 )
                 .retrieve()

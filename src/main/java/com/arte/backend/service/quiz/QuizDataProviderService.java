@@ -1,24 +1,24 @@
 package com.arte.backend.service.quiz;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
-@Service
-public class QuizDataProviderService {
-    @Autowired
-    private WebClient.Builder webClientBuilder;
+import static com.arte.backend.config.Global.API_COLLECTION_URL;
 
-    private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection?key=Gz1ZRsyI&format=json";
+@Service
+@AllArgsConstructor
+public class QuizDataProviderService {
+    private WebClient.Builder webClientBuilder;
 
     public String getDataForQuiz(String pageNumber, String resultsPerPage, String type,
                              Boolean imgOnly) {
 
         String response = webClientBuilder.build()
                 .get()
-                .uri(apiURL, uriBuilder -> uriBuilder
+                .uri(API_COLLECTION_URL, uriBuilder -> uriBuilder
                         .queryParamIfPresent("p", Optional.ofNullable(pageNumber))
                         .queryParamIfPresent("ps", Optional.ofNullable(resultsPerPage))
                         .queryParamIfPresent("type", Optional.ofNullable(type))
