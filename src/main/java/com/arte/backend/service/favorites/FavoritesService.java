@@ -18,7 +18,8 @@ public class FavoritesService {
     private Map<String, Set<FavoritesModel>> favorites;
 
     public Set<FavoritesModel> getFavoritesByUserId(String userId) {
-        return favorites == null ? new HashSet<>() : favorites.get(userId);
+        initializeFavoritesSet(userId);
+        return favorites.get(userId);
     }
 
     public void addToFavorites(String userId, String objectId) throws JsonProcessingException {
@@ -54,15 +55,20 @@ public class FavoritesService {
     }
 
     public boolean isFavoriteByObjectId(String userId, String objectId) {
+        long filteredSize = 0;
+
         if (favorites.containsKey(userId)) {
-            long filteredSize = favorites.get(userId).stream()
+            filteredSize = favorites.get(userId).stream()
                     .filter(fav -> fav.getObjectNumber().equals(objectId))
                     .count();
-
-            if (filteredSize == 1) {
-                return true;
-            }
         }
-        return false;
+
+        return filteredSize == 1;
+    }
+
+    private void initializeFavoritesSet(String userId) {
+        if (!favorites.containsKey(userId)) {
+            favorites.put(userId, new HashSet<>());
+        }
     }
 }
