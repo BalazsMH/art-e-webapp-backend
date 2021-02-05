@@ -15,7 +15,7 @@ public class DetailsController {
 
     @CrossOrigin
     @GetMapping("/api/getArtDetails")
-    public String returnArtDetails(@RequestParam(required = true, name = "objectNumber") String objectNumber) {
+    public String returnArtDetails(@RequestParam(name = "objectNumber") String objectNumber) {
         return artDetailsProviderService.getArtDetails(objectNumber);
     }
 
