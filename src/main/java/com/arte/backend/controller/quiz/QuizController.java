@@ -8,19 +8,17 @@ import com.arte.backend.util.quiz.PageNumberGenerator;
 import com.arte.backend.util.quiz.QuizGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/quiz")
+@AllArgsConstructor
 public class QuizController {
-    private String resultsPerPage = "20";
-    private String type = "painting";
+    private final String resultsPerPage = "20";
+    private final String type = "painting";
 
-    @Autowired
     QuizDataProviderService quizDataProviderService;
-
-    @Autowired
     PageNumberGenerator pageNumberGenerator;
 
     @CrossOrigin

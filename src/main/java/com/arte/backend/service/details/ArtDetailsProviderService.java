@@ -1,13 +1,12 @@
 package com.arte.backend.service.details;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@AllArgsConstructor
 public class ArtDetailsProviderService {
-
-    @Autowired
     private WebClient.Builder webClientBuilder;
     private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection";
     private final String apiKey = "Gz1ZRsyI";

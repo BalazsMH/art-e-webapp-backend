@@ -1,5 +1,6 @@
 package com.arte.backend.service.quiz;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,8 +8,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class QuizDataProviderService {
-    @Autowired
     private WebClient.Builder webClientBuilder;
 
     private final String apiURL = "https://www.rijksmuseum.nl/api/en/collection?key=Gz1ZRsyI&format=json";
