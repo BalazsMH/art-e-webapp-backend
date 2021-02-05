@@ -1,6 +1,6 @@
 package com.arte.backend.controller.quiz;
 
-import com.arte.backend.model.quiz.ArtObjectsList;
+import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.quiz.QuizModel;
 import com.arte.backend.model.quiz.QuizType;
 import com.arte.backend.service.quiz.QuizDataProviderService;

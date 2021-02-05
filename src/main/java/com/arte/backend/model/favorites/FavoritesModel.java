@@ -1,5 +1,6 @@
 package com.arte.backend.model.favorites;
 
+import com.arte.backend.model.apiresponse.WebImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.arte.backend.util.quiz;
 
-import com.arte.backend.model.quiz.ArtObject;
-import com.arte.backend.model.quiz.ArtObjectsList;
+import com.arte.backend.model.apiresponse.ArtObject;
+import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.quiz.QuestionModel;
 import com.arte.backend.model.quiz.QuizModel;
 import java.util.ArrayList;
