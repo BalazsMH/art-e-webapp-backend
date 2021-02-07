@@ -3,8 +3,6 @@ package com.arte.backend.model.database.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @Entity
@@ -23,7 +21,7 @@ public class UserStatistics {
     private int dailyRemainingXp;
     @ManyToOne
     private RankData rank;
-    @OneToOne(mappedBy = "userStatistics", cascade = CascadeType.PERSIST)
+    @OneToOne
     @EqualsAndHashCode.Exclude
     private UserData user;
 
