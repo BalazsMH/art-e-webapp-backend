@@ -21,6 +21,6 @@ public class RankData {
     private RankName name;
     private String badgeUrl;
     private long xpLimit;
-    @OneToMany(mappedBy = "rank", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "rank")
     private Set<UserStatistics> userStatisticsSet;
 }
