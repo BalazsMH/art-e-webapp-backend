@@ -1,7 +1,7 @@
 server.servlet.context-path = /api
 spring.datasource.url=jdbc:postgresql://localhost:5432/arte_db
-spring.datasource.username=balazs
-spring.datasource.password=balazs1
+spring.datasource.username=
+spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=create
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
