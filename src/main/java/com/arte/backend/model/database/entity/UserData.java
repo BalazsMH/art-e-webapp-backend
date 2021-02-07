@@ -27,5 +27,7 @@ public class UserData {
     @Singular
     @EqualsAndHashCode.Exclude
     private Set<FavoriteFolder> favoriteFolders;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private UserStatistics userStatistics;
 
 }
