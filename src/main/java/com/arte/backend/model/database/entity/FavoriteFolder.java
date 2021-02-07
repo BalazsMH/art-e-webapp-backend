@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,4 +23,7 @@ public class FavoriteFolder {
     private UserData user;
     @ManyToOne
     private ColorPicker color;
+    @ManyToMany
+    private Set<Favorite> favorites;
+
 }
