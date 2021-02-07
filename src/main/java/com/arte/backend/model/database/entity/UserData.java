@@ -23,7 +23,7 @@ public class UserData {
     private String password;
     private LocalDate birthDate;
     private LocalDate registrationDate;
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @Singular
     @EqualsAndHashCode.Exclude
     private Set<FavoriteFolder> favoriteFolders;
