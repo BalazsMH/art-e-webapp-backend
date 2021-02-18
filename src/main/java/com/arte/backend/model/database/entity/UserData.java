@@ -34,6 +34,7 @@ public class UserData {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private List<UserRole> roles = new ArrayList<>();
 
 }
