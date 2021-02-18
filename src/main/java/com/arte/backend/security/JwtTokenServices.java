@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.LinkedList;
@@ -67,6 +68,13 @@ public class JwtTokenServices {
         List<SimpleGrantedAuthority> authorities =new LinkedList<>();
         roles.forEach((role)->authorities.add(new SimpleGrantedAuthority(role)));
         return new UsernamePasswordAuthenticationToken(username, "", authorities);
+    }
 
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
     }
 }
