@@ -27,7 +27,7 @@ public class UserData {
     private String password;
     private LocalDate birthDate;
     private LocalDate registrationDate;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Singular
     @EqualsAndHashCode.Exclude
     private Set<FavoriteFolder> favoriteFolders;
