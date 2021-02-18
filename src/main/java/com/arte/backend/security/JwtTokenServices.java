@@ -3,11 +3,16 @@ package com.arte.backend.security;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Component
@@ -53,5 +58,15 @@ public class JwtTokenServices {
             log.debug("JWT token invalid: " + e);
         }
         return false;
+    }
+
+    public Authentication parseUserFromTokenInfo(String token) throws UsernameNotFoundException {
+        Claims body = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        String username =body.getSubject();
+        List<String> roles = (List<String>) body.get(rolesFieldName);
+        List<SimpleGrantedAuthority> authorities =new LinkedList<>();
+        roles.forEach((role)->authorities.add(new SimpleGrantedAuthority(role)));
+        return new UsernamePasswordAuthenticationToken(username, "", authorities);
+
     }
 }
