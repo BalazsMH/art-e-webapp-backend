@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,5 +31,10 @@ public class UserData {
     private Set<FavoriteFolder> favoriteFolders;
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserStatistics userStatistics;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private List<UserRole> roles = new ArrayList<>();
 
 }

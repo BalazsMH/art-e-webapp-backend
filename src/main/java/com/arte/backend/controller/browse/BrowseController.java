@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class BrowseController {
     MuseumApiDataProviderService museumApiDataProviderService;
 
-    @CrossOrigin
+    @CrossOrigin//TODO:create pararmeter to allow CORS only from frontend app
     @GetMapping("/getArtData")
     public String returnArtData(@RequestParam(required = false, name = "q") String query,
                                 @RequestParam(required = false, name = "involvedMaker") String involvedMaker,
