@@ -1,8 +1,7 @@
 package com.arte.backend.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Slf4j
 public class JwtTokenServices {
 
     @Value("${security.jwt.token.secret-key:secret}")
@@ -40,5 +40,18 @@ public class JwtTokenServices {
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> claims =Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            if (claims.getBody().getExpiration().before(new Date())) {
+                return false;
+            }
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            log.debug("JWT token invalid: " + e);
+        }
+        return false;
     }
 }
