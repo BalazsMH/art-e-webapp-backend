@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class UserData {
     @Id
     @GeneratedValue
@@ -21,6 +22,7 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String userName;
+//    @Column(unique = true)
     private String email;
     private String password;
     private LocalDate birthDate;
