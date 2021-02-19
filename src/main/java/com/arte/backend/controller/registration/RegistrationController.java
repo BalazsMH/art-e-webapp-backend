@@ -3,6 +3,7 @@ package com.arte.backend.controller.registration;
 import com.arte.backend.service.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +28,9 @@ public class RegistrationController {
                                    @RequestParam( name = "birthDate") String birthDate) {
 
         JSONObject responseJson = registrationService.registerUser(userName, firstName, lastName, email, password, birthDate);
-
-        return ResponseEntity.ok().body(responseJson.toString());
+        if (responseJson.getBoolean("emailNotAvailable")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(responseJson.toString());
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseJson.toString());
     }
 }
