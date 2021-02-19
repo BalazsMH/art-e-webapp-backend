@@ -24,7 +24,7 @@ public class JwtTokenServices {
     private String secretKey = "arte5864";
 
     @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000;
+    private long validityInMilliseconds = 259200000;
 
     private final String rolesFieldName = "roles";
 
