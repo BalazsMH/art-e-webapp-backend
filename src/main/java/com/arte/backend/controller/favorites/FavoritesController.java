@@ -14,25 +14,25 @@ import java.util.Set;
 public class FavoritesController {
     private FavoritesService favoritesService;
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{userId}")
     public Set<FavoritesModel> getFavoritesByUserId(@PathVariable String userId) {
         return favoritesService.getFavoritesByUserId(userId);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{userId}/{objectId}")
     public boolean isFavoriteByObjectId(@PathVariable String userId, @PathVariable String objectId) {
         return favoritesService.isFavoriteByObjectId(userId, objectId);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/{userId}/{objectId}")
     public void addToFavorites(@PathVariable String userId, @PathVariable String objectId) throws JsonProcessingException {
         favoritesService.addToFavorites(userId, objectId);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{userId}/{objectId}")
     public void deleteFavoriteByObjectId(@PathVariable String userId, @PathVariable String objectId) {
         favoritesService.deleteFavoriteByObjectId(userId, objectId);
