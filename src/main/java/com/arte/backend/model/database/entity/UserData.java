@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class UserData {
     @Id
     @GeneratedValue
@@ -21,11 +22,12 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String userName;
+    @Column(unique = true)
     private String email;
     private String password;
     private LocalDate birthDate;
     private LocalDate registrationDate;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Singular
     @EqualsAndHashCode.Exclude
     private Set<FavoriteFolder> favoriteFolders;
