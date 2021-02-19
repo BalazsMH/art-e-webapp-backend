@@ -23,7 +23,7 @@ public class QuizGenerator {
         String question = quizType.equals("detail") ? "title" : quizType;
 
         int counter = 0;
-        for (ArtObject artObject : apiData.getArtData()) {
+        for (ArtObject artObject : apiData.getArtDataList()) {
 
             Map<String, String> quizAnswerTypes = Map.of("title", artObject.getTitle(), "detail", artObject.getTitle(), "maker", artObject.getPrincipalOrFirstMaker());
 
