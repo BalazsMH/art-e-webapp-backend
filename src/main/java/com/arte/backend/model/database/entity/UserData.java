@@ -22,7 +22,7 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String userName;
-//    @Column(unique = true)
+    @Column(unique = true)
     private String email;
     private String password;
     private LocalDate birthDate;

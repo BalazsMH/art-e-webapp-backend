@@ -5,6 +5,7 @@ import com.arte.backend.model.database.entity.UserRole;
 import com.arte.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.Collections;
 @AllArgsConstructor
 public class RegistrationService {
     UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     public JSONObject registerUser(String userName, String firstName, String lastName,
                                    String email, String password, String birthDate) {
@@ -25,27 +27,20 @@ public class RegistrationService {
         JSONObject response = new JSONObject();
         response.put("emailNotAvailable", emailAlreadyExists);
 
-        if (emailAlreadyExists) {
-            System.out.println("email already in use");
-            return response;
-        } else {
-            System.out.println("email ok");
-        }
+        if (emailAlreadyExists) { return response; }
 
         UserData user = UserData.builder()
                 .userName(userName)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .registrationDate(LocalDate.now())
                 .birthDate(LocalDate.parse(birthDate))
                 .roles(Collections.singletonList(UserRole.USER))
                 .build();
         //TODO:validate data and send response
-        System.out.println(user.toString());
         userRepository.save(user);
-        System.out.println("save user");
         return response;
     }
 }

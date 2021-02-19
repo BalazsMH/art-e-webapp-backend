@@ -16,6 +16,7 @@ public class RegistrationController {
 
     RegistrationService registrationService;
 
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestParam( name = "userName") String userName,
