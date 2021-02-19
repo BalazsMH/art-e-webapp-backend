@@ -9,5 +9,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArtObjectsList {
     @JsonProperty("artObjects")
-    private List<ArtObject> artData;
+    private List<ArtObject> artDataList;
+
+    @JsonProperty("artObject")
+    private ArtObject artData;
 }
