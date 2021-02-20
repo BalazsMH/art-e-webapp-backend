@@ -28,13 +28,17 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final UserRepository userRepository;
+
+
     public AuthController(JwtTokenServices jwtTokenServices,
                           AuthenticationManager authenticationManager,
-                          UserRepository users,
+                          UserRepository userRepository,
                           PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenServices = jwtTokenServices;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/login")
@@ -56,6 +60,7 @@ public class AuthController {
             model.put("email", email);
             model.put("roles", roles);
             model.put("token", token);
+            model.put("username", userRepository.findByEmail(email).get().getUserName());
 
             return ResponseEntity.ok(model);
 
