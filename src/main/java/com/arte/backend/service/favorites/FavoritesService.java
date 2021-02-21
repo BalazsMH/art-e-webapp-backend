@@ -17,21 +17,21 @@ public class FavoritesService {
 
     private Map<String, Set<FavoritesModel>> favorites;
 
-    public Set<FavoritesModel> getFavoritesByUserId(String userId) {
-        initializeFavoritesSet(userId);
-        return favorites.get(userId);
+    public Set<FavoritesModel> getFavoritesByUserName(String userName) {
+        initializeFavoritesSet(userName);
+        return favorites.get(userName);
     }
 
-    public void addToFavorites(String userId, String objectId) throws JsonProcessingException {
+    public void addToFavorites(String userName, String objectId) throws JsonProcessingException {
         String result = artDetailsProviderService.getArtDetails(objectId);
         ArtObjectsList completeData = new ObjectMapper().readValue(result, ArtObjectsList.class);
         Optional<FavoritesModel> newFavorite = generateFavoriteFromObject(completeData, objectId);
         if (newFavorite.isPresent()) {
-            if (favorites.containsKey(userId)){
-                favorites.get(userId).add(newFavorite.get());
+            if (favorites.containsKey(userName)){
+                favorites.get(userName).add(newFavorite.get());
             }
             else {
-                favorites.put(userId, new HashSet<>() {{ add(newFavorite.get()); }});
+                favorites.put(userName, new HashSet<>() {{ add(newFavorite.get()); }});
             }
         }
     }
@@ -48,17 +48,17 @@ public class FavoritesService {
         return Optional.empty();
     }
 
-    public void deleteFavoriteByObjectId(String userId, String objectId) {
-        if (favorites.containsKey(userId)) {
-            favorites.get(userId).removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
+    public void deleteFavoriteByObjectId(String userName, String objectId) {
+        if (favorites.containsKey(userName)) {
+            favorites.get(userName).removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
         }
     }
 
-    public boolean isFavoriteByObjectId(String userId, String objectId) {
+    public boolean isFavoriteByObjectId(String userName, String objectId) {
         long filteredSize = 0;
 
-        if (favorites.containsKey(userId)) {
-            filteredSize = favorites.get(userId).stream()
+        if (favorites.containsKey(userName)) {
+            filteredSize = favorites.get(userName).stream()
                     .filter(fav -> fav.getObjectNumber().equals(objectId))
                     .count();
         }
@@ -66,9 +66,9 @@ public class FavoritesService {
         return filteredSize == 1;
     }
 
-    private void initializeFavoritesSet(String userId) {
-        if (!favorites.containsKey(userId)) {
-            favorites.put(userId, new HashSet<>());
+    private void initializeFavoritesSet(String userName) {
+        if (!favorites.containsKey(userName)) {
+            favorites.put(userName, new HashSet<>());
         }
     }
 }

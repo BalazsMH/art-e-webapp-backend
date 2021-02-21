@@ -15,26 +15,26 @@ public class FavoritesController {
     private FavoritesService favoritesService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/{userId}")
-    public Set<FavoritesModel> getFavoritesByUserId(@PathVariable String userId) {
-        return favoritesService.getFavoritesByUserId(userId);
+    @GetMapping("/{userName}")
+    public Set<FavoritesModel> getFavoritesByUserId(@PathVariable String userName) {
+        return favoritesService.getFavoritesByUserName(userName);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/{userId}/{objectId}")
-    public boolean isFavoriteByObjectId(@PathVariable String userId, @PathVariable String objectId) {
-        return favoritesService.isFavoriteByObjectId(userId, objectId);
+    @GetMapping("/{userName}/{objectId}")
+    public boolean isFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
+        return favoritesService.isFavoriteByObjectId(userName, objectId);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/{userId}/{objectId}")
-    public void addToFavorites(@PathVariable String userId, @PathVariable String objectId) throws JsonProcessingException {
-        favoritesService.addToFavorites(userId, objectId);
+    @PostMapping("/{userName}/{objectId}")
+    public void addToFavorites(@PathVariable String userName, @PathVariable String objectId) throws JsonProcessingException {
+        favoritesService.addToFavorites(userName, objectId);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/{userId}/{objectId}")
-    public void deleteFavoriteByObjectId(@PathVariable String userId, @PathVariable String objectId) {
-        favoritesService.deleteFavoriteByObjectId(userId, objectId);
+    @DeleteMapping("/{userName}/{objectId}")
+    public void deleteFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
+        favoritesService.deleteFavoriteByObjectId(userName, objectId);
     }
 }
