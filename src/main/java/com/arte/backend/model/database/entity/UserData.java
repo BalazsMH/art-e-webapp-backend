@@ -15,9 +15,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @ToString
+@Table(name = "user_data")
 public class UserData {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private long id;
     private String firstName;
     private String lastName;
@@ -31,7 +33,9 @@ public class UserData {
     @Singular
     @EqualsAndHashCode.Exclude
     private Set<FavoriteFolder> favoriteFolders;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_statistics_id", referencedColumnName = "id")
     private UserStatistics userStatistics;
 
     @ElementCollection(fetch = FetchType.EAGER)
