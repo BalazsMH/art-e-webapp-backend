@@ -3,6 +3,7 @@ package com.arte.backend.service.registration;
 import com.arte.backend.model.database.entity.UserData;
 import com.arte.backend.model.database.entity.UserRole;
 import com.arte.backend.repository.UserRepository;
+import com.arte.backend.service.email.CustomEmailService;
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import java.util.Collections;
 public class RegistrationService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    CustomEmailService customEmailService;
 
     public JSONObject registerUser(String userName, String firstName, String lastName,
                                    String email, String password, String birthDate) {
@@ -41,6 +43,7 @@ public class RegistrationService {
                 .build();
         //TODO:validate data and send response
         userRepository.save(user);
+        customEmailService.sendConfirmationEmail(userName, email);
         return response;
     }
 }
