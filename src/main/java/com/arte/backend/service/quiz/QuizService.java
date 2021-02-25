@@ -30,6 +30,7 @@ public class QuizService {
         QuizGenerator quizGenerator = new QuizGenerator(artObjectsList, type.getQuizType());
         QuizModel quiz = quizGenerator.generateQuiz(new QuizModel());
         String quizJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(quiz);
+
         return quizJson;
     }
 }

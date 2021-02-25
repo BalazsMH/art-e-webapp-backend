@@ -13,14 +13,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "rank_data")
 public class RankData {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private long id;
     @Enumerated
     private RankName name;
     private String badgeUrl;
     private long xpLimit;
-    @OneToMany(mappedBy = "rank")
-    private Set<UserStatistics> userStatisticsSet;
 }
