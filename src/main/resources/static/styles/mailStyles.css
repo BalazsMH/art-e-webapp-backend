@@ -7,6 +7,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: rgb(25, 27, 28);
+    color: rgb(232, 230, 227);
 }
 
 .title {
