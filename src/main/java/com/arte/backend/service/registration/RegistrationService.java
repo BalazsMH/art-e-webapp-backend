@@ -43,7 +43,8 @@ public class RegistrationService {
                 .build();
         //TODO:validate data and send response
         userRepository.save(user);
-        customEmailService.sendConfirmationEmail(userName, email);
+        //TODO:handle email send errors
+        customEmailService.sendHtmlConfirmationEmail(userName, email);
         return response;
     }
 }
