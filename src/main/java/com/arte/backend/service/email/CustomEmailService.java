@@ -39,7 +39,7 @@ public class CustomEmailService {
         Map<String, Object> variables = new HashMap<>();
         variables.put("username", username);
         variables.put("useremail", userEmail);
-        variables.put("logo", "logo");
+        variables.put("logo", "logo.png");
 
         String output = templateEngineConfiguration
                             .templateEngineProvider()
@@ -48,14 +48,13 @@ public class CustomEmailService {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.addInline("logo", new ClassPathResource("static/images/arte.png"), "image/png");
-
-            message.setRecipients(MimeMessage.RecipientType.TO, userEmail);
-            message.setSubject("Welcome to Art-E!");
-            message.setContent(output, "text/html");
+            helper.setSubject("Welcome to Art-E!");
+            helper.setTo(userEmail);
+            helper.addInline("logo.png", new ClassPathResource("static/images/arte.png"), "image/png");
+            helper.setText(output, true);
 
             javaMailSender.send(message);
-            log.info("Successfully sent email to: " + userEmail);
+            log.info("Successfully sent registration email to: " + userEmail);
         } catch (MessagingException e) {
             log.error("Failed to send confirmation email to: " + userEmail);
         }
