@@ -10,7 +10,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 public class TemplateEngineConfiguration {
     @Bean
-    public ITemplateResolver templateResolver() {
+    public ITemplateResolver htmlTemplateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setPrefix("templates/");
         templateResolver.setSuffix(".html");
@@ -22,7 +22,7 @@ public class TemplateEngineConfiguration {
     @Bean
     public TemplateEngine templateEngineProvider() {
         TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(this.templateResolver());
+        templateEngine.setTemplateResolver(this.htmlTemplateResolver());
 
         return templateEngine;
     }
