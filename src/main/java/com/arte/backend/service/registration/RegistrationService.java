@@ -41,9 +41,8 @@ public class RegistrationService {
                 .birthDate(LocalDate.parse(birthDate))
                 .roles(Collections.singletonList(UserRole.USER))
                 .build();
-        //TODO:validate data and send response
+        //TODO:validate data and send response accordingly
         userRepository.save(user);
-        //TODO:handle email send errors
         customEmailService.sendHtmlConfirmationEmail(userName, email);
         return response;
     }
