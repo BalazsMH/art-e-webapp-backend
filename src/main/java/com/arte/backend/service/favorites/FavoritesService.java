@@ -2,9 +2,8 @@ package com.arte.backend.service.favorites;
 
 import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.database.entity.Favorite;
-import com.arte.backend.model.database.entity.FavoriteFolder;
+import com.arte.backend.model.database.entity.FavoriteCollection;
 import com.arte.backend.model.database.entity.UserData;
-import com.arte.backend.model.database.repository.FavoriteFolderRepository;
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.repository.UserRepository;
 import com.arte.backend.service.details.ArtDetailsProviderService;
@@ -13,52 +12,62 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class FavoritesService {
-    private static final String DEFAULT_FAVORITE_FOLDER_NAME = "default";
-    private FavoriteFolderRepository favoriteFolderRepository;
     private UserRepository userRepository;
     private ArtDetailsProviderService artDetailsProviderService;
 
-
-    private void initFolder(UserData user) {
-        List<FavoriteFolder> favFolders = favoriteFolderRepository.findAllByUser(user);
-        if (favFolders.size() == 0) {
-            FavoriteFolder defaultFolder = FavoriteFolder.builder()
-                    .name(DEFAULT_FAVORITE_FOLDER_NAME)
-                    .user(user)
+    private void initFavorites(UserData user) {
+        if (user.getFavoriteCollection() == null) {
+            FavoriteCollection favoriteCollection = FavoriteCollection.builder()
+                    .favoriteFolders(new HashSet<>())
+                    .favorites(new HashSet<>())
                     .build();
-            favoriteFolderRepository.save(defaultFolder);
+            user.setFavoriteCollection(favoriteCollection);
         }
+        userRepository.save(user);
     }
 
-    // TODO: extend to custom folders
     public Set<FavoritesModel> getFavoritesByUserName(String userName) {
-        Optional<UserData> user = userRepository.findByUserName(userName);
-        if (!user.isPresent()) {
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (!optUser.isPresent()) {
             return null;
         }
+        UserData user = optUser.get();
 
-        initFolder(user.get());
-        FavoriteFolder defaultFolder = favoriteFolderRepository.findByUserAndName(user.get(), DEFAULT_FAVORITE_FOLDER_NAME);
+        FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+        if (favoriteCollection == null) {
+            initFavorites(user);
+            favoriteCollection = user.getFavoriteCollection();
+        }
 
-        return favModelFromEntity(defaultFolder.getFavorites());
+        Set<Favorite> favorites = favoriteCollection.getFavorites();
+        Set<FavoritesModel> favoritesModels = null;
+
+        if (favorites.size() != 0) {
+            favoritesModels = favModelFromEntity(favorites);
+        }
+
+        return favoritesModels;
     }
 
     private Set<FavoritesModel> favModelFromEntity(Set<Favorite> favoriteSet) {
         Set<FavoritesModel> favorites = new HashSet<>();
-        favoriteSet.stream().forEach(fav -> {
-            ArtObjectsList apiData = getArtObjectsList(fav.getObjectNumber());
-            Optional<FavoritesModel> newFavorite = generateFavoriteFromObject(apiData, fav.getObjectNumber());
+
+        Iterator<Favorite> it = favoriteSet.iterator();
+        while(it.hasNext()){
+            String objectNumber = it.next().getObjectNumber();
+            ArtObjectsList apiData = getArtObjectsList(objectNumber);
+            Optional<FavoritesModel> newFavorite = generateFavoriteFromObject(apiData, objectNumber);
             if (newFavorite.isPresent()) {
                 favorites.add(newFavorite.get());
             }
-        });
-        return null;
+        }
+
+        return favorites.size() != 0 ? favorites : null;
     }
 
     private ArtObjectsList getArtObjectsList(String objectName) {
@@ -86,15 +95,21 @@ public class FavoritesService {
     }
 
     public void addToFavorites(String userName, String objectName) {
-        Optional<UserData> user = userRepository.findByUserName(userName);
-        if (user.isPresent()) {
-            FavoriteFolder defaultFolder = favoriteFolderRepository.findByUserAndName(user.get(), DEFAULT_FAVORITE_FOLDER_NAME);
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
             Favorite newFavorite = Favorite.builder()
                     .objectNumber(objectName)
-                    .favoriteFolder(defaultFolder)
                     .build();
-            defaultFolder.getFavorites().add(newFavorite);
-            favoriteFolderRepository.save(defaultFolder);
+            favoriteCollection.getFavorites().add(newFavorite);
+            userRepository.save(user);
         }
     }
 
