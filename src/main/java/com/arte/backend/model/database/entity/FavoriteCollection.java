@@ -1,9 +1,6 @@
 package com.arte.backend.model.database.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,10 +16,12 @@ public class FavoriteCollection {
     @GeneratedValue
     @Column(name = "id")
     private long id;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @Singular
     @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
     private Set<FavoriteFolder> favoriteFolders;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @Singular
     @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
     private Set<Favorite> favorites;
 }
