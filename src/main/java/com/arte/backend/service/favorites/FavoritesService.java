@@ -113,29 +113,31 @@ public class FavoritesService {
         }
     }
 
+    public boolean isFavoriteByObjectId(String userName, String objectId) {
+        long filteredSize = 0;
+
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
+            filteredSize = favoriteCollection.getFavorites().stream()
+                    .filter(fav -> fav.getObjectNumber().equals(objectId))
+                    .count();
+        }
+
+        return filteredSize == 1;
+    }
 
 
 
     private Map<String, Set<FavoritesModel>> favorites;
 
-//    public Set<FavoritesModel> getFavoritesByUserName(String userName) {
-//        initializeFavoritesSet(userName);
-//        return favorites.get(userName);
-//    }
-
-//    public void addToFavorites(String userName, String objectId) throws JsonProcessingException {
-//        String result = artDetailsProviderService.getArtDetails(objectId);
-//        ArtObjectsList completeData = new ObjectMapper().readValue(result, ArtObjectsList.class);
-//        Optional<FavoritesModel> newFavorite = generateFavoriteFromObject(completeData, objectId);
-//        if (newFavorite.isPresent()) {
-//            if (favorites.containsKey(userName)){
-//                favorites.get(userName).add(newFavorite.get());
-//            }
-//            else {
-//                favorites.put(userName, new HashSet<>() {{ add(newFavorite.get()); }});
-//            }
-//        }
-//    }
 
 
 
@@ -145,17 +147,17 @@ public class FavoritesService {
         }
     }
 
-    public boolean isFavoriteByObjectId(String userName, String objectId) {
-        long filteredSize = 0;
-
-        if (favorites.containsKey(userName)) {
-            filteredSize = favorites.get(userName).stream()
-                    .filter(fav -> fav.getObjectNumber().equals(objectId))
-                    .count();
-        }
-
-        return filteredSize == 1;
-    }
+//    public boolean isFavoriteByObjectId(String userName, String objectId) {
+//        long filteredSize = 0;
+//
+//        if (favorites.containsKey(userName)) {
+//            filteredSize = favorites.get(userName).stream()
+//                    .filter(fav -> fav.getObjectNumber().equals(objectId))
+//                    .count();
+//        }
+//
+//        return filteredSize == 1;
+//    }
 
 //    private void initializeFavoritesSet(String userName) {
 //        if (!favorites.containsKey(userName)) {
