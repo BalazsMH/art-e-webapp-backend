@@ -15,7 +15,7 @@ public class ColorPicker {
     @GeneratedValue
     private long id;
     @Enumerated
-    private ColorName name;
+    private Color name;
     private String colorIndex;
     @OneToMany(mappedBy = "color", cascade = CascadeType.PERSIST)
     @Singular

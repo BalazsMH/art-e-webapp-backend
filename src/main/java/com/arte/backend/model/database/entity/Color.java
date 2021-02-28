@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ColorName {
+public enum Color {
     BLUE("Blue"),
     ORANGE("Orange");
     //TODO:Define color names
