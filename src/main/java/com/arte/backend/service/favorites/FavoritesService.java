@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -134,34 +135,19 @@ public class FavoritesService {
         return filteredSize == 1;
     }
 
-
-
-    private Map<String, Set<FavoritesModel>> favorites;
-
-
-
-
+    @Transactional
     public void deleteFavoriteByObjectId(String userName, String objectId) {
-        if (favorites.containsKey(userName)) {
-            favorites.get(userName).removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
+            favoriteCollection.getFavorites().removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
         }
     }
-
-//    public boolean isFavoriteByObjectId(String userName, String objectId) {
-//        long filteredSize = 0;
-//
-//        if (favorites.containsKey(userName)) {
-//            filteredSize = favorites.get(userName).stream()
-//                    .filter(fav -> fav.getObjectNumber().equals(objectId))
-//                    .count();
-//        }
-//
-//        return filteredSize == 1;
-//    }
-
-//    private void initializeFavoritesSet(String userName) {
-//        if (!favorites.containsKey(userName)) {
-//            favorites.put(userName, new HashSet<>());
-//        }
-//    }
 }
