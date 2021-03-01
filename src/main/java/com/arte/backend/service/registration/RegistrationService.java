@@ -1,5 +1,7 @@
 package com.arte.backend.service.registration;
 
+import com.arte.backend.model.database.entity.RankData;
+import com.arte.backend.model.database.entity.RankName;
 import com.arte.backend.model.database.entity.UserData;
 import com.arte.backend.model.database.entity.UserRole;
 import com.arte.backend.repository.UserRepository;
