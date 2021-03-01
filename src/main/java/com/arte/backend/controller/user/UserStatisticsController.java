@@ -14,7 +14,7 @@ public class UserStatisticsController {
     UserStatisticsService userStatisticsService;
 
     @CrossOrigin
-    @GetMapping("/{userName}/statistics")
+    @PostMapping("/{userName}/statistics")
     public UserStatistics getStatistics(@PathVariable String userName) {
         return userStatisticsService.userStatistics(userName);
     }
