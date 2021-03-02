@@ -1,9 +1,7 @@
 package com.arte.backend.service.favorites;
 
 import com.arte.backend.model.apiresponse.ArtObjectsList;
-import com.arte.backend.model.database.entity.Favorite;
-import com.arte.backend.model.database.entity.FavoriteCollection;
-import com.arte.backend.model.database.entity.UserData;
+import com.arte.backend.model.database.entity.*;
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.repository.UserRepository;
 import com.arte.backend.service.details.ArtDetailsProviderService;
@@ -148,6 +146,28 @@ public class FavoritesService {
             }
 
             favoriteCollection.getFavorites().removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
+        }
+    }
+
+    public void addFavoriteFolder(String userName, String folderName, String colorHex) {
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
+            FavoriteFolder newFolder = FavoriteFolder.builder()
+                    .name(folderName)
+                    .colorHex(colorHex)
+                    .favorites(new HashSet<>())
+                    .build();
+
+            favoriteCollection.getFavoriteFolders().add(newFolder);
+            userRepository.save(user);
         }
     }
 }

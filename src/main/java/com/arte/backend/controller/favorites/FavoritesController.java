@@ -3,6 +3,7 @@ package com.arte.backend.controller.favorites;
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.service.favorites.FavoritesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class FavoritesController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/{userName}/{objectId}")
-    public void addToFavorites(@PathVariable String userName, @PathVariable String objectId) throws JsonProcessingException {
+    public void addToFavorites(@PathVariable String userName, @PathVariable String objectId) {
         favoritesService.addToFavorites(userName, objectId);
     }
 
@@ -36,5 +37,11 @@ public class FavoritesController {
     @DeleteMapping("/{userName}/{objectId}")
     public void deleteFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
         favoritesService.deleteFavoriteByObjectId(userName, objectId);
+    }
+
+    @CrossOrigin//(origins = "http://localhost:3000")
+    @PostMapping("/add/{userName}/{folderName}/{colorHex}")
+    public void addFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName, @PathVariable @NotNull String colorHex) {
+        favoritesService.addFavoriteFolder(userName, folderName, colorHex);
     }
 }
