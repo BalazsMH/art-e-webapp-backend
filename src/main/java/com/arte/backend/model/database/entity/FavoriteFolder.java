@@ -21,8 +21,7 @@ public class FavoriteFolder {
     @Column(name = "id")
     private long id;
     private String name;
-    @ManyToOne
-    private ColorPicker color;
+    private String colorHex;
     @ManyToMany
     @JoinColumn(name = "favorite_id", referencedColumnName = "id")
     private Set<Favorite> favorites;
