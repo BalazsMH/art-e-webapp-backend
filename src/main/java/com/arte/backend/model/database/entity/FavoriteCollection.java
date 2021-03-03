@@ -16,11 +16,11 @@ public class FavoriteCollection {
     @GeneratedValue
     @Column(name = "id")
     private long id;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     @Singular
     @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
     private Set<FavoriteFolder> favoriteFolders;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     @Singular
     @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
     private Set<Favorite> favorites;

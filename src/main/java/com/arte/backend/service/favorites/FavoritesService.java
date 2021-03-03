@@ -170,4 +170,20 @@ public class FavoritesService {
             userRepository.save(user);
         }
     }
+
+    @Transactional
+    public void deleteFavoriteFolder(String userName, String folderName) {
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
+            favoriteCollection.getFavoriteFolders().removeIf(folder -> folder.getName().equals(folderName));
+        }
+    }
 }
