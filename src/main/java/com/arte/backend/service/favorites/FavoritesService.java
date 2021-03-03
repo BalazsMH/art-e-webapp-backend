@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -94,7 +95,11 @@ public class FavoritesService {
         return Optional.empty();
     }
 
-    public void addToFavorites(String userName, String objectName) {
+    public void addToFavorites(String userName, String objectId) {
+        addToFavorites(userName,objectId, null);
+    }
+
+    public void addToFavorites(String userName, String objectName, String folderName) {
         Optional<UserData> optUser = userRepository.findByUserName(userName);
         if (optUser.isPresent()) {
             UserData user = optUser.get();
@@ -105,10 +110,21 @@ public class FavoritesService {
                 favoriteCollection = user.getFavoriteCollection();
             }
 
-            Favorite newFavorite = Favorite.builder()
-                    .objectNumber(objectName)
-                    .build();
-            favoriteCollection.getFavorites().add(newFavorite);
+            if (folderName == null) {
+                Favorite newFavorite = Favorite.builder()
+                        .objectNumber(objectName)
+                        .build();
+                favoriteCollection.getFavorites().add(newFavorite);
+            }
+            else {
+                Optional<Favorite> favorite = favoriteCollection.getFavorites().stream().filter(f -> f.getObjectNumber().equals(objectName)).findFirst();
+                if (favorite.isPresent()) {
+                    Optional<FavoriteFolder> favoriteFolder = favoriteCollection.getFavoriteFolders().stream().filter(f -> f.getName().equals(folderName)).findFirst();
+                    if (favoriteFolder.isPresent()) {
+                        favoriteFolder.get().getFavorites().add(favorite.get());
+                    }
+                }
+            }
             userRepository.save(user);
         }
     }
@@ -208,4 +224,5 @@ public class FavoritesService {
             }
         }
     }
+
 }

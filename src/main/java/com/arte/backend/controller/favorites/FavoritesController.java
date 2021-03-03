@@ -34,6 +34,12 @@ public class FavoritesController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/{userName}/{objectId}/{folderName}")
+    public void addToFavorites(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId, @PathVariable(required = false) String folderName) {
+        favoritesService.addToFavorites(userName, objectId, folderName);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{userName}/{objectId}")
     public void deleteFavoriteByObjectId(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
         favoritesService.deleteFavoriteByObjectId(userName, objectId);
