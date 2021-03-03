@@ -40,7 +40,7 @@ public class FavoritesController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/add/{userName}/{folderName}/{colorHex}")
+    @PostMapping("/addFolder/{userName}/{folderName}/{colorHex}")
     public void addFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName, @PathVariable @NotNull String colorHex) {
         favoritesService.addFavoriteFolder(userName, folderName, colorHex);
     }
