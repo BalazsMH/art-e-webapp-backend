@@ -17,25 +17,25 @@ public class FavoritesController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{userName}")
-    public Set<FavoritesModel> getFavoritesByUserId(@PathVariable String userName) {
+    public Set<FavoritesModel> getFavoritesByUserId(@PathVariable @NotNull String userName) {
         return favoritesService.getFavoritesByUserName(userName);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{userName}/{objectId}")
-    public boolean isFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
+    public boolean isFavoriteByObjectId(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
         return favoritesService.isFavoriteByObjectId(userName, objectId);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/{userName}/{objectId}")
-    public void addToFavorites(@PathVariable String userName, @PathVariable String objectId) {
+    public void addToFavorites(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
         favoritesService.addToFavorites(userName, objectId);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{userName}/{objectId}")
-    public void deleteFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
+    public void deleteFavoriteByObjectId(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
         favoritesService.deleteFavoriteByObjectId(userName, objectId);
     }
 
