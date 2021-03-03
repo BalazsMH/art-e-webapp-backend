@@ -162,6 +162,9 @@ public class FavoritesService {
                 favoriteCollection = user.getFavoriteCollection();
             }
 
+            favoriteCollection.getFavoriteFolders()
+                    .forEach(fol -> fol.getFavorites().removeIf(f -> f.getObjectNumber().equals(objectId)));
+
             favoriteCollection.getFavorites().removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
         }
     }

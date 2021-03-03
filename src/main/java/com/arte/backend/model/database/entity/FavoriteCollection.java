@@ -20,7 +20,7 @@ public class FavoriteCollection {
     @Singular
     @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
     private Set<FavoriteFolder> favoriteFolders;
-    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @Singular
     @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
     private Set<Favorite> favorites;
