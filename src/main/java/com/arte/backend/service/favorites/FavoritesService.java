@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -184,6 +185,27 @@ public class FavoritesService {
             }
 
             favoriteCollection.getFavoriteFolders().removeIf(folder -> folder.getName().equals(folderName));
+        }
+    }
+
+    @Transactional
+    public void renameFavoriteFolder(String userName, String oldFolderName, String newFolderName) {
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
+            for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
+                if (folder.getName().equals(oldFolderName)) {
+                    folder.setName(newFolderName);
+                    break;
+                }
+            }
         }
     }
 }

@@ -45,9 +45,15 @@ public class FavoritesController {
         favoritesService.addFavoriteFolder(userName, folderName, colorHex);
     }
 
-    @CrossOrigin//(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/deleteFolder/{userName}/{folderName}")
     public void deleteFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName) {
         favoritesService.deleteFavoriteFolder(userName, folderName);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/renameFolder/{userName}/{oldFolderName}/{newFolderName}")
+    public void renameFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String oldFolderName, @PathVariable @NotNull String newFolderName) {
+        favoritesService.renameFavoriteFolder(userName, oldFolderName, newFolderName);
     }
 }
