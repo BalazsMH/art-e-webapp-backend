@@ -22,6 +22,7 @@ public class AboutService {
                     .license("React infinite scroll component", "https://github.com/ankeetmaini/react-infinite-scroll-component/blob/master/license")
                     .license("Font Awesome icon set", "https://fontawesome.com/license/free")
                     .license("Grommet", "https://github.com/grommet/grommet/blob/master/LICENSE")
+                    .license("React-responsive", "https://github.com/contra/react-responsive/blob/master/LICENSE")
                     .build();
     }
 }
