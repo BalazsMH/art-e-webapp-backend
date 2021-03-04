@@ -31,11 +31,25 @@ public class FavoritesService {
     }
 
     public Set<FavoritesModel> getFavoritesByUserName(String userName) {
+        return getFavoritesByUserNameAndFolder(userName, null);
+    }
+
+    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(String userName, String folderName) {
         Set<FavoritesModel> favoritesModels = null;
 
         FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
         if (favoriteCollection != null) {
-            Set<Favorite> favorites = favoriteCollection.getFavorites();
+            Set<Favorite> favorites = null;
+            if (folderName == null) {
+                favorites = favoriteCollection.getFavorites();
+            }
+            else {
+                for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
+                    if (folder.getName().equals(folderName)) {
+                        favorites = folder.getFavorites();
+                    }
+                }
+            }
 
             if (favorites.size() != 0) {
                 favoritesModels = favModelFromEntity(favorites);

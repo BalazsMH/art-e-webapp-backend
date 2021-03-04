@@ -21,6 +21,12 @@ public class FavoritesController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/byFolder/{userName}/{folderName}")
+    public Set<FavoritesModel> getFavoritesByUserIdAndFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName) {
+        return favoritesService.getFavoritesByUserNameAndFolder(userName, folderName);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{userName}/{objectId}")
     public boolean isFavoriteByObjectId(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
         return favoritesService.isFavoriteByObjectId(userName, objectId);
