@@ -62,4 +62,10 @@ public class FavoritesController {
     public void renameFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String oldFolderName, @PathVariable @NotNull String newFolderName) {
         favoritesService.renameFavoriteFolder(userName, oldFolderName, newFolderName);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/changeColor/{userName}/{folderName}/{newColor}")
+    public void changeFavoriteFolderColor(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName, @PathVariable @NotNull String newColor) {
+        favoritesService.changeFavoriteFolderColor(userName, folderName, newColor);
+    }
 }

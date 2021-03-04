@@ -228,4 +228,24 @@ public class FavoritesService {
         }
     }
 
+    @Transactional
+    public void changeFavoriteFolderColor(String userName, String folderName, String color) {
+        Optional<UserData> optUser = userRepository.findByUserName(userName);
+        if (optUser.isPresent()) {
+            UserData user = optUser.get();
+
+            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
+            if (favoriteCollection == null) {
+                initFavorites(user);
+                favoriteCollection = user.getFavoriteCollection();
+            }
+
+            for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
+                if (folder.getName().equals(folderName)) {
+                    folder.setColorHex(color);
+                    break;
+                }
+            }
+        }
+    }
 }
