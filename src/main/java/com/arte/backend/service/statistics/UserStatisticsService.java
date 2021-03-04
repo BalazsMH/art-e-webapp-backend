@@ -37,7 +37,6 @@ public class UserStatisticsService {
             userStatistics.setCorrectAnswers(newUserStatistics.getUserStatisticsModel().getCorrectAnswers());
             userStatistics.setDailyRemainingXp(newUserStatistics.getUserStatisticsModel().getDailyRemainingXp());
             userStatistics.setWinStreak(newUserStatistics.getUserStatisticsModel().getWinStreak());
-            System.out.println(userStatistics.toString());
             userStatisticsRepository.save(userStatistics);
         }
     }
