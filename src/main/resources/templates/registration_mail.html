@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/mailStyles.css">
+</head>
+<body>
+    <img id="logo" alt="logo" src="../static/images/arte.png" th:src="|cid:${logo}|">
+    <h1 class="title" th:text="|Welcome to Art-E, ${username}!|">Welcome to Art-E!</h1>
+    <div class="mail-body">
+        <p>We would like to welcome You into our ever-growing community of art lovers!</p>
+        <p>Start exploring or take some of our quizzes! Earn badges by reaching experience milestones and share your achievements with friends!<br> In any case, have fun learning!</p>
+        <p>The Art-E Team</p>
+    </div>
+    <a href="https://www.google.hu/">Start browsing</a>
+
+</body>
+</html>

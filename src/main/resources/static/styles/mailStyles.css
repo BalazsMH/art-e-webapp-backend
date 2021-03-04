@@ -1,0 +1,26 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    font-size: 2rem;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(25, 27, 28);
+    color: rgb(232, 230, 227);
+}
+
+.title {
+    text-align: center;
+}
+
+#logo {
+    max-height: 10rem;
+}
+
+.mail-body {
+    padding: 1rem;
+    width: 50%;
+    text-align: justify;
+}
