@@ -2,7 +2,6 @@ package com.arte.backend.controller.favorites;
 
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.service.favorites.FavoritesService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

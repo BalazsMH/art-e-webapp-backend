@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -33,23 +31,15 @@ public class FavoritesService {
     }
 
     public Set<FavoritesModel> getFavoritesByUserName(String userName) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (!optUser.isPresent()) {
-            return null;
-        }
-        UserData user = optUser.get();
-
-        FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-        if (favoriteCollection == null) {
-            initFavorites(user);
-            favoriteCollection = user.getFavoriteCollection();
-        }
-
-        Set<Favorite> favorites = favoriteCollection.getFavorites();
         Set<FavoritesModel> favoritesModels = null;
 
-        if (favorites.size() != 0) {
-            favoritesModels = favModelFromEntity(favorites);
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
+            Set<Favorite> favorites = favoriteCollection.getFavorites();
+
+            if (favorites.size() != 0) {
+                favoritesModels = favModelFromEntity(favorites);
+            }
         }
 
         return favoritesModels;
@@ -58,14 +48,11 @@ public class FavoritesService {
     private Set<FavoritesModel> favModelFromEntity(Set<Favorite> favoriteSet) {
         Set<FavoritesModel> favorites = new HashSet<>();
 
-        Iterator<Favorite> it = favoriteSet.iterator();
-        while(it.hasNext()){
-            String objectNumber = it.next().getObjectNumber();
+        for (Favorite favorite : favoriteSet) {
+            String objectNumber = favorite.getObjectNumber();
             ArtObjectsList apiData = getArtObjectsList(objectNumber);
             Optional<FavoritesModel> newFavorite = generateFavoriteFromObject(apiData, objectNumber);
-            if (newFavorite.isPresent()) {
-                favorites.add(newFavorite.get());
-            }
+            newFavorite.ifPresent(favorites::add);
         }
 
         return favorites.size() != 0 ? favorites : null;
@@ -100,16 +87,8 @@ public class FavoritesService {
     }
 
     public void addToFavorites(String userName, String objectName, String folderName) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (optUser.isPresent()) {
-            UserData user = optUser.get();
-
-            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-            if (favoriteCollection == null) {
-                initFavorites(user);
-                favoriteCollection = user.getFavoriteCollection();
-            }
-
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
             if (folderName == null) {
                 Favorite newFavorite = Favorite.builder()
                         .objectNumber(objectName)
@@ -125,23 +104,15 @@ public class FavoritesService {
                     }
                 }
             }
-            userRepository.save(user);
+            userRepository.save(userRepository.findByUserName(userName).get());
         }
     }
 
     public boolean isFavoriteByObjectId(String userName, String objectId) {
         long filteredSize = 0;
 
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (optUser.isPresent()) {
-            UserData user = optUser.get();
-
-            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-            if (favoriteCollection == null) {
-                initFavorites(user);
-                favoriteCollection = user.getFavoriteCollection();
-            }
-
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
             filteredSize = favoriteCollection.getFavorites().stream()
                     .filter(fav -> fav.getObjectNumber().equals(objectId))
                     .count();
@@ -152,34 +123,19 @@ public class FavoritesService {
 
     @Transactional
     public void deleteFavoriteByObjectId(String userName, String objectId) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (optUser.isPresent()) {
-            UserData user = optUser.get();
-
-            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-            if (favoriteCollection == null) {
-                initFavorites(user);
-                favoriteCollection = user.getFavoriteCollection();
-            }
-
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders()
-                    .forEach(fol -> fol.getFavorites().removeIf(f -> f.getObjectNumber().equals(objectId)));
+                    .forEach(fol -> fol.getFavorites()
+                            .removeIf(f -> f.getObjectNumber().equals(objectId)));
 
             favoriteCollection.getFavorites().removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
         }
     }
 
     public void addFavoriteFolder(String userName, String folderName, String colorHex) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (optUser.isPresent()) {
-            UserData user = optUser.get();
-
-            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-            if (favoriteCollection == null) {
-                initFavorites(user);
-                favoriteCollection = user.getFavoriteCollection();
-            }
-
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
             FavoriteFolder newFolder = FavoriteFolder.builder()
                     .name(folderName)
                     .colorHex(colorHex)
@@ -187,38 +143,22 @@ public class FavoritesService {
                     .build();
 
             favoriteCollection.getFavoriteFolders().add(newFolder);
-            userRepository.save(user);
+            userRepository.save(userRepository.findByUserName(userName).get());
         }
     }
 
     @Transactional
     public void deleteFavoriteFolder(String userName, String folderName) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (optUser.isPresent()) {
-            UserData user = optUser.get();
-
-            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-            if (favoriteCollection == null) {
-                initFavorites(user);
-                favoriteCollection = user.getFavoriteCollection();
-            }
-
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders().removeIf(folder -> folder.getName().equals(folderName));
         }
     }
 
     @Transactional
     public void renameFavoriteFolder(String userName, String oldFolderName, String newFolderName) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
-        if (optUser.isPresent()) {
-            UserData user = optUser.get();
-
-            FavoriteCollection favoriteCollection = user.getFavoriteCollection();
-            if (favoriteCollection == null) {
-                initFavorites(user);
-                favoriteCollection = user.getFavoriteCollection();
-            }
-
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
             for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
                 if (folder.getName().equals(oldFolderName)) {
                     folder.setName(newFolderName);
@@ -230,6 +170,18 @@ public class FavoritesService {
 
     @Transactional
     public void changeFavoriteFolderColor(String userName, String folderName, String color) {
+        FavoriteCollection favoriteCollection = getFavoriteCollection(userName);
+        if (favoriteCollection != null) {
+            for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
+                if (folder.getName().equals(folderName)) {
+                    folder.setColorHex(color);
+                    break;
+                }
+            }
+        }
+    }
+
+    private FavoriteCollection getFavoriteCollection(String userName) {
         Optional<UserData> optUser = userRepository.findByUserName(userName);
         if (optUser.isPresent()) {
             UserData user = optUser.get();
@@ -239,13 +191,8 @@ public class FavoritesService {
                 initFavorites(user);
                 favoriteCollection = user.getFavoriteCollection();
             }
-
-            for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
-                if (folder.getName().equals(folderName)) {
-                    folder.setColorHex(color);
-                    break;
-                }
-            }
+            return favoriteCollection;
         }
+        return null;
     }
 }
