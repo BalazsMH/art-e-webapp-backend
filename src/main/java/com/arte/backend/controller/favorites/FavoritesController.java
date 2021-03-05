@@ -1,6 +1,5 @@
 package com.arte.backend.controller.favorites;
 
-import com.arte.backend.model.database.entity.FavoriteFolder;
 import com.arte.backend.model.favorites.FavoriteFolderModel;
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.service.favorites.FavoritesService;
@@ -76,7 +75,7 @@ public class FavoritesController {
         favoritesService.changeFavoriteFolderColor(userName, folderName, newColor);
     }
 
-    @CrossOrigin//(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getFolders/{userName}")
     public Set<FavoriteFolderModel> getFoldersByUserName(@PathVariable @NotNull String userName) {
         return favoritesService.getFoldersByUserName(userName);
