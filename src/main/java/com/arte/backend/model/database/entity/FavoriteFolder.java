@@ -14,16 +14,15 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "favorite_folder")
 public class FavoriteFolder {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private long id;
     private String name;
-    @ManyToOne
-    private UserData user;
-    @ManyToOne
-    private ColorPicker color;
+    private String colorHex;
     @ManyToMany
+    @JoinColumn(name = "favorite_id", referencedColumnName = "id")
     private Set<Favorite> favorites;
-
 }

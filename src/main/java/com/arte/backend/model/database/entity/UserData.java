@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -29,10 +28,10 @@ public class UserData {
     private String password;
     private LocalDate birthDate;
     private LocalDate registrationDate;
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @Singular
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @EqualsAndHashCode.Exclude
-    private Set<FavoriteFolder> favoriteFolders;
+    @JoinColumn(name = "favorite_collection_id", referencedColumnName = "id")
+    private FavoriteCollection favoriteCollection;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_statistics_id", referencedColumnName = "id")
