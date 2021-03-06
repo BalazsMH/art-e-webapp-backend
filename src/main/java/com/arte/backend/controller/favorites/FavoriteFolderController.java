@@ -2,17 +2,19 @@ package com.arte.backend.controller.favorites;
 
 import com.arte.backend.model.favorites.FavoriteFolderModel;
 import com.arte.backend.service.favorites.FavoriteFolderService;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
 @RequestMapping("/favorites")
-@AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class FavoriteFolderController {
     private FavoriteFolderService favoriteFolderService;
+
+    public FavoriteFolderController(FavoriteFolderService favoriteFolderService) {
+        this.favoriteFolderService = favoriteFolderService;
+    }
 
     @PostMapping("/addFolder/{userName}/{folderName}/{colorHex}")
     public void addFavoriteFolder(@PathVariable String userName, @PathVariable String folderName, @PathVariable String colorHex) {

@@ -1,14 +1,16 @@
 package com.arte.backend.controller.browse;
 
 import com.arte.backend.service.browse.MuseumApiDataProviderService;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class BrowseController {
     MuseumApiDataProviderService museumApiDataProviderService;
+
+    public BrowseController(MuseumApiDataProviderService museumApiDataProviderService) {
+        this.museumApiDataProviderService = museumApiDataProviderService;
+    }
 
     //TODO:create pararmeter to allow CORS only from frontend app
     @GetMapping("/getArtData")

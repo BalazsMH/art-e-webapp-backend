@@ -2,17 +2,19 @@ package com.arte.backend.controller.favorites;
 
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.service.favorites.FavoritesService;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
 @RequestMapping("/favorites")
-@AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class FavoritesController {
     private FavoritesService favoritesService;
+
+    public FavoritesController(FavoritesService favoritesService) {
+        this.favoritesService = favoritesService;
+    }
 
     @GetMapping("/byFolder/{userName}/{folderName}")
     public Set<FavoritesModel> getFavoritesByUserIdAndFolder(@PathVariable String userName, @PathVariable String folderName) {
