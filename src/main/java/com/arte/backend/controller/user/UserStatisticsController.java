@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserStatisticsController {
-    UserStatisticsService userStatisticsService;
+    private final UserStatisticsService userStatisticsService;
 
     public UserStatisticsController(UserStatisticsService userStatisticsService) {
         this.userStatisticsService = userStatisticsService;

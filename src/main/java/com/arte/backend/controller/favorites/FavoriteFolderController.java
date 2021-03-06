@@ -10,7 +10,7 @@ import java.util.Set;
 @RequestMapping("/favorites")
 @CrossOrigin(origins = "http://localhost:3000")
 public class FavoriteFolderController {
-    private FavoriteFolderService favoriteFolderService;
+    private final FavoriteFolderService favoriteFolderService;
 
     public FavoriteFolderController(FavoriteFolderService favoriteFolderService) {
         this.favoriteFolderService = favoriteFolderService;

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Service
 public class MuseumApiDataProviderService {
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     @Value("${api.collection.url}")
     private String apiCollectionUrl;

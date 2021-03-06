@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class RegistrationController {
-    RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;

@@ -14,10 +14,10 @@ import java.util.Optional;
 
 @Service
 public class RegistrationService {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private CustomEmailService customEmailService;
-    private UserRankRepository userRankRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomEmailService customEmailService;
+    private final UserRankRepository userRankRepository;
 
     public RegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomEmailService customEmailService, UserRankRepository userRankRepository) {
         this.userRepository = userRepository;
@@ -28,9 +28,6 @@ public class RegistrationService {
 
     public JSONObject registerUser(String userName, String firstName, String lastName,
                                    String email, String password, String birthDate) {
-
-        System.out.println(userName + firstName + lastName + email + password + birthDate);
-
         boolean emailAlreadyExists = userRepository.existsByEmail(email);
 
         JSONObject response = new JSONObject();

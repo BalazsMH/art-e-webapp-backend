@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class DetailsController {
-    ArtDetailsProviderService artDetailsProviderService;
+    private final ArtDetailsProviderService artDetailsProviderService;
 
     public DetailsController(ArtDetailsProviderService artDetailsProviderService) {
         this.artDetailsProviderService = artDetailsProviderService;

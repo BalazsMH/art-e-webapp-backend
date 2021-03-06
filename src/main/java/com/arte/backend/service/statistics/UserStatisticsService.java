@@ -13,8 +13,8 @@ import java.util.Optional;
 
 @Service
 public class UserStatisticsService {
-    UserStatisticsRepository userStatisticsRepository;
-    UserRepository userRepository;
+    private final UserStatisticsRepository userStatisticsRepository;
+    private final UserRepository userRepository;
 
     public UserStatisticsService(UserStatisticsRepository userStatisticsRepository, UserRepository userRepository) {
         this.userStatisticsRepository = userStatisticsRepository;

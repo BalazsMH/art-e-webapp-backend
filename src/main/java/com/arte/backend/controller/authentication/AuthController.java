@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
-
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenServices jwtTokenServices;

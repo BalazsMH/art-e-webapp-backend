@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/quiz")
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
-    private QuizService quizService;
+    private final QuizService quizService;
 
     public QuizController(QuizService quizService) {
         this.quizService = quizService;

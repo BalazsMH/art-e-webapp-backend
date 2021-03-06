@@ -8,8 +8,8 @@ import com.arte.backend.model.quiz.QuizModel;
 import java.util.*;
 
 public class QuizGenerator {
-    private ArtObjectsList apiData;
-    private String quizType;
+    private final ArtObjectsList apiData;
+    private final String quizType;
 
     public QuizGenerator(ArtObjectsList apiData, String quizType) {
         this.apiData = apiData;

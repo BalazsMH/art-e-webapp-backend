@@ -14,8 +14,8 @@ public class QuizService {
     private final String resultsPerPage = "20";
     private final String type = "painting";
 
-    private QuizDataProviderService quizDataProviderService;
-    private PageNumberGenerator pageNumberGenerator;
+    private final QuizDataProviderService quizDataProviderService;
+    private final PageNumberGenerator pageNumberGenerator;
 
     public QuizService(QuizDataProviderService quizDataProviderService, PageNumberGenerator pageNumberGenerator) {
         this.quizDataProviderService = quizDataProviderService;
@@ -32,8 +32,7 @@ public class QuizService {
 
         QuizGenerator quizGenerator = new QuizGenerator(artObjectsList, type.getQuizType());
         QuizModel quiz = quizGenerator.generateQuiz(new QuizModel());
-        String quizJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(quiz);
 
-        return quizJson;
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(quiz);
     }
 }

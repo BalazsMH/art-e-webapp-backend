@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class BrowseController {
-    MuseumApiDataProviderService museumApiDataProviderService;
+    private final MuseumApiDataProviderService museumApiDataProviderService;
 
     public BrowseController(MuseumApiDataProviderService museumApiDataProviderService) {
         this.museumApiDataProviderService = museumApiDataProviderService;

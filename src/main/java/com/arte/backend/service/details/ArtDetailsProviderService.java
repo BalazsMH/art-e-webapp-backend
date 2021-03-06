@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class ArtDetailsProviderService {
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     @Value("${api.single.url}")
     private String apiSingleUrl;

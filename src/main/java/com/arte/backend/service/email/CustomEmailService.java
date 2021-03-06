@@ -17,8 +17,8 @@ import java.util.Map;
 @Service
 @Slf4j
 public class CustomEmailService {
-    JavaMailSender javaMailSender;
-    TemplateEngineConfiguration templateEngineConfiguration;
+    private final JavaMailSender javaMailSender;
+    private final TemplateEngineConfiguration templateEngineConfiguration;
 
     public CustomEmailService(JavaMailSender javaMailSender, TemplateEngineConfiguration templateEngineConfiguration) {
         this.javaMailSender = javaMailSender;
