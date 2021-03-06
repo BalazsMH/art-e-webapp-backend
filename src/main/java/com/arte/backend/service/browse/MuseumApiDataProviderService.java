@@ -1,26 +1,27 @@
 package com.arte.backend.service.browse;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
-import static com.arte.backend.config.Global.API_COLLECTION_URL;
-
-
 @Service
 @AllArgsConstructor
 public class MuseumApiDataProviderService {
     private WebClient.Builder webClientBuilder;
-    
+
+    @Value("${api.collection.url}")
+    private String apiCollectionUrl;
+
     public String getArtData(String query, String involvedMaker, String technique,
                              String datingPeriod, String pageNumber, String resultsPerPage,
                              Boolean imgOnly, String culture) {
 
         String response = webClientBuilder.build()
                 .get()
-                .uri(API_COLLECTION_URL, uriBuilder -> uriBuilder
+                .uri(apiCollectionUrl, uriBuilder -> uriBuilder
                         .queryParamIfPresent("p", Optional.ofNullable(pageNumber))
                         .queryParamIfPresent("ps", Optional.ofNullable(resultsPerPage))
                         .queryParamIfPresent("imgonly", Optional.ofNullable(imgOnly))

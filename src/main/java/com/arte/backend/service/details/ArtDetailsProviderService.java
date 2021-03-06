@@ -1,24 +1,32 @@
 package com.arte.backend.service.details;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import static com.arte.backend.config.Global.*;
 
 @Service
 @AllArgsConstructor
 public class ArtDetailsProviderService {
     private WebClient.Builder webClientBuilder;
 
+    @Value("${api.single.url}")
+    private String apiSingleUrl;
+
+    @Value("${api.key}")
+    private String apiKey;
+
+    @Value("${api.response.format}")
+    private String apiResponseFormat;
+
     public String getArtDetails(String objectNumber) {
 
         String response = webClientBuilder.build()
                 .get()
-                .uri(API_SINGLE_ARTWORK_URL, uriBuilder -> uriBuilder
+                .uri(apiSingleUrl, uriBuilder -> uriBuilder
                         .pathSegment("{objectNumber}")
-                        .queryParam("key", API_KEY)
-                        .queryParam("format", API_RESPONSE_FORMAT)
+                        .queryParam("key", apiKey)
+                        .queryParam("format", apiResponseFormat)
                         .build(objectNumber)
                 )
                 .retrieve()
