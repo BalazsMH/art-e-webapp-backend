@@ -20,20 +20,8 @@ import java.util.Map;
 @AllArgsConstructor
 @Slf4j
 public class CustomEmailService {
-
     JavaMailSender javaMailSender;
     TemplateEngineConfiguration templateEngineConfiguration;
-
-
-    public void sendConfirmationEmail(String username, String userEmail) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(userEmail);
-
-        msg.setSubject("Welcome to Art-E!");
-        msg.setText("Welcome, " + username + "!\n Your registration has been successful");
-
-        javaMailSender.send(msg);
-    }
 
     public void sendHtmlConfirmationEmail(String username, String userEmail) {
         Map<String, Object> variables = new HashMap<>();
