@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/quiz")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
     private QuizService quizService;
 
-    @CrossOrigin
     @PostMapping
     public String getQuiz(@RequestBody String quizType) throws JsonProcessingException {
         return quizService.getQuiz(quizType);

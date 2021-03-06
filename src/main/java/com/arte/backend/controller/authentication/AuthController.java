@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -42,7 +43,6 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> login(@RequestParam(name = "password") String password,
                                         @RequestParam(name = "email") String email) {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).build();

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class DetailsController {
     ArtDetailsProviderService artDetailsProviderService;
 
-    @CrossOrigin
     @GetMapping("/getArtDetails")
     public String returnArtDetails(@RequestParam(name = "objectNumber") String objectNumber) {
         return artDetailsProviderService.getArtDetails(objectNumber);

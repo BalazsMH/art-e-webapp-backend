@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class RegistrationController {
 
     RegistrationService registrationService;
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestParam( name = "userName") String userName,
                                    @RequestParam( name = "firstName") String firstName,

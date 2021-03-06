@@ -10,17 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserStatisticsController {
 
     UserStatisticsService userStatisticsService;
 
-    @CrossOrigin
     @PostMapping("/{userName}/statistics")
     public UserStatistics getStatistics(@PathVariable String userName) {
         return userStatisticsService.getUserStatistics(userName);
     }
 
-    @CrossOrigin
     @PostMapping("/update-statistics")
     public void updateUserStatistics(@RequestBody String userData) throws JsonProcessingException {
         userStatisticsService.updateUserStatistics(userData);
