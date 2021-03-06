@@ -1,12 +1,10 @@
 package com.arte.backend.service.details;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-@AllArgsConstructor
 public class ArtDetailsProviderService {
     private WebClient.Builder webClientBuilder;
 
@@ -18,6 +16,10 @@ public class ArtDetailsProviderService {
 
     @Value("${api.response.format}")
     private String apiResponseFormat;
+
+    public ArtDetailsProviderService(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
     public String getArtDetails(String objectNumber) {
 

@@ -1,6 +1,5 @@
 package com.arte.backend.service.quiz;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,12 +7,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class QuizDataProviderService {
     private WebClient.Builder webClientBuilder;
 
     @Value("${api.collection.url}")
     private String apiCollectionUrl;
+
+    public QuizDataProviderService(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
     public String getDataForQuiz(String pageNumber, String resultsPerPage, String type,
                              Boolean imgOnly) {

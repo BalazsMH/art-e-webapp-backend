@@ -1,6 +1,5 @@
 package com.arte.backend.service.browse;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,12 +7,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class MuseumApiDataProviderService {
     private WebClient.Builder webClientBuilder;
 
     @Value("${api.collection.url}")
     private String apiCollectionUrl;
+
+    public MuseumApiDataProviderService(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
     public String getArtData(String query, String involvedMaker, String technique,
                              String datingPeriod, String pageNumber, String resultsPerPage,

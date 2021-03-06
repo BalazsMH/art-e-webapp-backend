@@ -1,24 +1,25 @@
 package com.arte.backend.service.statistics;
 
-import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.database.entity.UserData;
 import com.arte.backend.model.database.entity.UserStatistics;
 import com.arte.backend.model.statistics.UserStatisticsDataModel;
-import com.arte.backend.model.statistics.UserStatisticsModel;
 import com.arte.backend.repository.UserRepository;
 import com.arte.backend.repository.UserStatisticsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UserStatisticsService {
     UserStatisticsRepository userStatisticsRepository;
     UserRepository userRepository;
+
+    public UserStatisticsService(UserStatisticsRepository userStatisticsRepository, UserRepository userRepository) {
+        this.userStatisticsRepository = userStatisticsRepository;
+        this.userRepository = userRepository;
+    }
 
     public UserStatistics getUserStatistics(String userName) {
         Optional<UserData> user = userRepository.findByUserName(userName);
