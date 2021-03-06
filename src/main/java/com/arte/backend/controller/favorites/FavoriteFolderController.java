@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/favorites")
+@RequestMapping("/favoriteFolder")
 @CrossOrigin(origins = "http://localhost:3000")
 public class FavoriteFolderController {
     private final FavoriteFolderService favoriteFolderService;
@@ -31,7 +31,7 @@ public class FavoriteFolderController {
         favoriteFolderService.renameFavoriteFolder(userName, oldFolderName, newFolderName);
     }
 
-    @PutMapping("/changeColor/{userName}/{folderName}/{newColor}")
+    @PutMapping("/changeFolderColor/{userName}/{folderName}/{newColor}")
     public void changeFavoriteFolderColor(@PathVariable String userName, @PathVariable String folderName, @PathVariable String newColor) {
         favoriteFolderService.changeFavoriteFolderColor(userName, folderName, newColor);
     }

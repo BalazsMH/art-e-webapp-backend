@@ -74,13 +74,13 @@ public class FavoritesService {
         }
     }
 
-    public boolean isFavoriteByObjectId(String userName, String objectId) {
+    public boolean isFavoriteByObjectName(String userName, String objectName) {
         long filteredSize = 0;
 
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
         if (favoriteCollection != null) {
             filteredSize = favoriteCollection.getFavorites().stream()
-                    .filter(fav -> fav.getObjectNumber().equals(objectId))
+                    .filter(fav -> fav.getObjectNumber().equals(objectName))
                     .count();
         }
 
@@ -88,14 +88,14 @@ public class FavoritesService {
     }
 
     @Transactional
-    public void deleteFavoriteByObjectId(String userName, String objectId) {
+    public void deleteFavoriteByObjectName(String userName, String objectName) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
         if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders()
                     .forEach(fol -> fol.getFavorites()
-                            .removeIf(f -> f.getObjectNumber().equals(objectId)));
+                            .removeIf(f -> f.getObjectNumber().equals(objectName)));
 
-            favoriteCollection.getFavorites().removeIf(artwork -> artwork.getObjectNumber().equals(objectId));
+            favoriteCollection.getFavorites().removeIf(artwork -> artwork.getObjectNumber().equals(objectName));
         }
     }
 

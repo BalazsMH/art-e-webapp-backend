@@ -16,33 +16,33 @@ public class FavoritesController {
         this.favoritesService = favoritesService;
     }
 
-    @GetMapping("/byFolder/{userName}/{folderName}")
-    public Set<FavoritesModel> getFavoritesByUserIdAndFolder(@PathVariable String userName, @PathVariable String folderName) {
-        return favoritesService.getFavoritesByUserNameAndFolder(userName, folderName);
-    }
-
-    @PostMapping("/{userName}/{objectId}/{folderName}")
-    public void addToFavoriteFolder(@PathVariable String userName, @PathVariable String objectId, @PathVariable(required = false) String folderName) {
-        favoritesService.addToFavorites(userName, objectId, folderName);
+    @GetMapping("/isFavorite/{userName}/{objectName}")
+    public boolean isFavoriteByObjectName(@PathVariable String userName, @PathVariable String objectName) {
+        return favoritesService.isFavoriteByObjectName(userName, objectName);
     }
 
     @GetMapping("/{userName}")
-    public Set<FavoritesModel> getFavoritesByUserId(@PathVariable String userName) {
+    public Set<FavoritesModel> getFavoritesByUserName(@PathVariable String userName) {
         return favoritesService.getFavoritesByUserName(userName);
     }
 
-    @GetMapping("/{userName}/{objectId}")
-    public boolean isFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
-        return favoritesService.isFavoriteByObjectId(userName, objectId);
+    @GetMapping("/getByFolder/{userName}/{folderName}")
+    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(@PathVariable String userName, @PathVariable String folderName) {
+        return favoritesService.getFavoritesByUserNameAndFolder(userName, folderName);
     }
 
-    @PostMapping("/{userName}/{objectId}")
-    public void addToFavorites (@PathVariable String userName, @PathVariable String objectId){
-        favoritesService.addToFavorites(userName, objectId);
+    @PostMapping("/{userName}/{objectName}")
+    public void addToFavorites (@PathVariable String userName, @PathVariable String objectName){
+        favoritesService.addToFavorites(userName, objectName);
     }
 
-    @DeleteMapping("/{userName}/{objectId}")
-    public void deleteFavoriteByObjectId(@PathVariable String userName, @PathVariable String objectId) {
-        favoritesService.deleteFavoriteByObjectId(userName, objectId);
+    @PostMapping("/addFavorite/{userName}/{objectName}/{folderName}")
+    public void addToFavoriteFolder(@PathVariable String userName, @PathVariable String objectName, @PathVariable(required = false) String folderName) {
+        favoritesService.addToFavorites(userName, objectName, folderName);
+    }
+
+    @DeleteMapping("/{userName}/{objectName}")
+    public void deleteFavoriteByObjectName(@PathVariable String userName, @PathVariable String objectName) {
+        favoritesService.deleteFavoriteByObjectName(userName, objectName);
     }
 }
