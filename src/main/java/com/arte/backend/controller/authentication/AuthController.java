@@ -1,7 +1,7 @@
 package com.arte.backend.controller.authentication;
 
 import com.arte.backend.model.authentication.UserCredentials;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.security.JwtTokenServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

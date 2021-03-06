@@ -1,7 +1,7 @@
 package com.arte.backend.security;
 
 import com.arte.backend.model.database.entity.UserData;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

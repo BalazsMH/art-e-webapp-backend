@@ -3,7 +3,7 @@ package com.arte.backend.service.favorites;
 import com.arte.backend.model.database.entity.FavoriteCollection;
 import com.arte.backend.model.database.entity.FavoriteFolder;
 import com.arte.backend.model.favorites.FavoriteFolderModel;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

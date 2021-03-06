@@ -1,4 +1,4 @@
-package com.arte.backend.repository;
+package com.arte.backend.model.database.repository;
 
 import com.arte.backend.model.database.entity.UserStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;

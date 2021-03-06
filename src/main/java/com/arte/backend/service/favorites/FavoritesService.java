@@ -3,7 +3,7 @@ package com.arte.backend.service.favorites;
 import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.database.entity.*;
 import com.arte.backend.model.favorites.FavoritesModel;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.service.details.ArtDetailsProviderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -2,7 +2,7 @@ package com.arte.backend.service.favorites;
 
 import com.arte.backend.model.database.entity.FavoriteCollection;
 import com.arte.backend.model.database.entity.UserData;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

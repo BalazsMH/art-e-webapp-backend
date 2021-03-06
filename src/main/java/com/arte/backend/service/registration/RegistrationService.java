@@ -1,8 +1,8 @@
 package com.arte.backend.service.registration;
 
 import com.arte.backend.model.database.entity.*;
-import com.arte.backend.repository.UserRankRepository;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRankRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.service.email.CustomEmailService;
 import org.json.JSONObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
