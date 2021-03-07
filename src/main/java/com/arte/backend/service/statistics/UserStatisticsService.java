@@ -25,14 +25,14 @@ public class UserStatisticsService {
     }
 
     public UserStatistics getUserStatistics(String token) {
-        String email = jwtTokenServices.getUserNameFromTokenInfo(token);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
         Optional<UserData> user = userRepository.findByEmail(email);
         return user.map(UserData::getUserStatistics).orElse(null);
     }
 
     public void updateUserStatistics(String userData, String token) throws JsonProcessingException {
         UserStatisticsDataModel newUserStatistics = new ObjectMapper().readValue(userData, UserStatisticsDataModel.class);
-        String email = jwtTokenServices.getUserNameFromTokenInfo(token);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
         Optional<UserData> user = userRepository.findByEmail(email);
         UserStatistics userStatistics = user.map(UserData::getUserStatistics).orElse(null);;
 

@@ -20,8 +20,8 @@ public class FavoriteFolderService {
         this.favoriteHelper = favoriteHelper;
     }
 
-    public void addFavoriteFolder(String userName, String folderName, String colorHex) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void addFavoriteFolder(String email, String folderName, String colorHex) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             FavoriteFolder newFolder = FavoriteFolder.builder()
                     .name(folderName)
@@ -30,7 +30,7 @@ public class FavoriteFolderService {
                     .build();
 
             favoriteCollection.getFavoriteFolders().add(newFolder);
-            userRepository.save(userRepository.findByUserName(userName).get());
+            userRepository.save(userRepository.findByEmail(email).get());
         }
     }
 
@@ -68,9 +68,9 @@ public class FavoriteFolderService {
         }
     }
 
-    public Set<FavoriteFolderModel> getFoldersByUserName(String userName) {
+    public Set<FavoriteFolderModel> getFoldersByUserName(String email) {
         Set<FavoriteFolderModel> folderModels = new HashSet<>();
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders()
                     .forEach(f -> folderModels.add(FavoriteFolderModel

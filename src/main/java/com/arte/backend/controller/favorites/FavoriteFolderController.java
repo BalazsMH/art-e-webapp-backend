@@ -1,6 +1,7 @@
 package com.arte.backend.controller.favorites;
 
 import com.arte.backend.model.favorites.FavoriteFolderModel;
+import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.favorites.FavoriteFolderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,19 +12,25 @@ import java.util.Set;
 @CrossOrigin(origins = "http://localhost:3000")
 public class FavoriteFolderController {
     private final FavoriteFolderService favoriteFolderService;
+    private final JwtTokenServices jwtTokenServices;
 
-    public FavoriteFolderController(FavoriteFolderService favoriteFolderService) {
+    public FavoriteFolderController(FavoriteFolderService favoriteFolderService, JwtTokenServices jwtTokenServices) {
         this.favoriteFolderService = favoriteFolderService;
+        this.jwtTokenServices = jwtTokenServices;
     }
 
-    @GetMapping("/getFolders/{userName}")
-    public Set<FavoriteFolderModel> getFoldersByUserName(@PathVariable String userName) {
-        return favoriteFolderService.getFoldersByUserName(userName);
+    @GetMapping("/getFolders")
+    public Set<FavoriteFolderModel> getFoldersByUserName(@RequestHeader("Authorization") String bearerToken) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        return favoriteFolderService.getFoldersByUserName(email);
     }
 
-    @PostMapping("/addFolder/{userName}/{folderName}/{colorHex}")
-    public void addFavoriteFolder(@PathVariable String userName, @PathVariable String folderName, @PathVariable String colorHex) {
-        favoriteFolderService.addFavoriteFolder(userName, folderName, colorHex);
+    @PostMapping("/addFolder/{folderName}/{colorHex}")
+    public void addFavoriteFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName, @PathVariable String colorHex) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoriteFolderService.addFavoriteFolder(email, folderName, colorHex);
     }
 
     @PutMapping("/renameFolder/{userName}/{oldFolderName}/{newFolderName}")

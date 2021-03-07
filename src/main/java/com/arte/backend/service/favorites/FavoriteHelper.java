@@ -16,8 +16,8 @@ public class FavoriteHelper {
         this.userRepository = userRepository;
     }
 
-    public FavoriteCollection getFavoriteCollection(String userName) {
-        Optional<UserData> optUser = userRepository.findByUserName(userName);
+    public FavoriteCollection getFavoriteCollection(String email) {
+        Optional<UserData> optUser = userRepository.findByEmail(email);
         if (optUser.isPresent()) {
             UserData user = optUser.get();
 
