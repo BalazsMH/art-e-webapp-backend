@@ -5,6 +5,7 @@ import com.arte.backend.model.database.entity.UserStatistics;
 import com.arte.backend.model.statistics.UserStatisticsDataModel;
 import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.model.database.repository.UserStatisticsRepository;
+import com.arte.backend.security.JwtTokenServices;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,17 @@ import java.util.Optional;
 public class UserStatisticsService {
     private final UserStatisticsRepository userStatisticsRepository;
     private final UserRepository userRepository;
+    private final JwtTokenServices jwtTokenServices;
 
-    public UserStatisticsService(UserStatisticsRepository userStatisticsRepository, UserRepository userRepository) {
+    public UserStatisticsService(UserStatisticsRepository userStatisticsRepository, UserRepository userRepository, JwtTokenServices jwtTokenServices) {
         this.userStatisticsRepository = userStatisticsRepository;
         this.userRepository = userRepository;
+        this.jwtTokenServices = jwtTokenServices;
     }
 
-    public UserStatistics getUserStatistics(String userName) {
-        Optional<UserData> user = userRepository.findByUserName(userName);
+    public UserStatistics getUserStatistics(String token) {
+        String email = jwtTokenServices.getUserNameFromTokenInfo(token);
+        Optional<UserData> user = userRepository.findByEmail(email);
         return user.map(UserData::getUserStatistics).orElse(null);
     }
 

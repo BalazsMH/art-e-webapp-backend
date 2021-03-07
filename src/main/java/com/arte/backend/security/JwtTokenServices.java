@@ -69,6 +69,11 @@ public class JwtTokenServices {
         return new UsernamePasswordAuthenticationToken(username, "", authorities);
     }
 
+    public String getUserNameFromTokenInfo(String token) throws UsernameNotFoundException {
+        Claims body = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return body.getSubject();
+    }
+
     public String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
