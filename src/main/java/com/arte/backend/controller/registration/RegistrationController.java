@@ -1,7 +1,6 @@
 package com.arte.backend.controller.registration;
 
 import com.arte.backend.service.registration.RegistrationService;
-import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class RegistrationController {
+    private final RegistrationService registrationService;
 
-    RegistrationService registrationService;
+    public RegistrationController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
 
-
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestParam( name = "userName") String userName,
                                    @RequestParam( name = "firstName") String firstName,

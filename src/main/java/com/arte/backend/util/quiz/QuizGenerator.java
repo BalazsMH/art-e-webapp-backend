@@ -8,8 +8,8 @@ import com.arte.backend.model.quiz.QuizModel;
 import java.util.*;
 
 public class QuizGenerator {
-    private ArtObjectsList apiData;
-    private String quizType;
+    private final ArtObjectsList apiData;
+    private final String quizType;
 
     public QuizGenerator(ArtObjectsList apiData, String quizType) {
         this.apiData = apiData;
@@ -20,17 +20,17 @@ public class QuizGenerator {
         QuestionModel questions = new QuestionModel();
         List<QuestionModel> questionModelList = new ArrayList<>();
         Set<String> incorrectAnswers = new HashSet<>();
-        String question = quizType.equals("detail") ? "title" : quizType;
+        String question = quizType.equals(QuizType.DETAIL.getName()) ? QuizType.TITLE.getName() : quizType;
 
         int counter = 0;
         for (ArtObject artObject : apiData.getArtDataList()) {
 
-            Map<String, String> quizAnswerTypes = Map.of("title", artObject.getTitle(), "detail", artObject.getTitle(), "maker", artObject.getPrincipalOrFirstMaker());
+            Map<String, String> quizAnswerTypes = Map.of(QuizType.TITLE.getName(), artObject.getTitle(), QuizType.DETAIL.getName(), artObject.getTitle(), QuizType.MAKER.getName(), artObject.getPrincipalOrFirstMaker());
 
             if (counter == 0) {
                 questions.setCorrectAnswer(quizAnswerTypes.get(quizType));
                 questions.setImgUrl(artObject.getWebImage().getUrl());
-                String questionWord = (question.equals("maker") ? "Who" : "What");
+                String questionWord = (question.equals(QuizType.MAKER.getName()) ? "Who" : "What");
                 questions.setQuestion(questionWord + " is the " + question + " of this picture?");
                 counter++;
             }

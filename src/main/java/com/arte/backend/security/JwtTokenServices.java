@@ -19,12 +19,11 @@ import java.util.List;
 @Component
 @Slf4j
 public class JwtTokenServices {
-
     @Value("${security.jwt.token.secret-key:secret}")
-    private String secretKey = "arte5864";
+    private String secretKey;
 
-    @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 259200000;
+    @Value("${security.jwt.token.expire-length}")
+    private long validityInMilliseconds;
 
     private final String rolesFieldName = "roles";
 
@@ -70,10 +69,22 @@ public class JwtTokenServices {
         return new UsernamePasswordAuthenticationToken(username, "", authorities);
     }
 
+    public String getEmailFromTokenInfo(String token) throws UsernameNotFoundException {
+        Claims body = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return body.getSubject();
+    }
+
     public String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public String getTokenFromHeader(String bearerToken) {
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
         }
         return null;
     }

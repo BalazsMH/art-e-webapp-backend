@@ -1,10 +1,8 @@
 package com.arte.backend.service.email;
 
 import com.arte.backend.config.TemplateEngineConfiguration;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,22 +15,14 @@ import java.util.Locale;
 import java.util.Map;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 public class CustomEmailService {
+    private final JavaMailSender javaMailSender;
+    private final TemplateEngineConfiguration templateEngineConfiguration;
 
-    JavaMailSender javaMailSender;
-    TemplateEngineConfiguration templateEngineConfiguration;
-
-
-    public void sendConfirmationEmail(String username, String userEmail) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(userEmail);
-
-        msg.setSubject("Welcome to Art-E!");
-        msg.setText("Welcome, " + username + "!\n Your registration has been successful");
-
-        javaMailSender.send(msg);
+    public CustomEmailService(JavaMailSender javaMailSender, TemplateEngineConfiguration templateEngineConfiguration) {
+        this.javaMailSender = javaMailSender;
+        this.templateEngineConfiguration = templateEngineConfiguration;
     }
 
     public void sendHtmlConfirmationEmail(String username, String userEmail) {
