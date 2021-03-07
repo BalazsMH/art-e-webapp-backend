@@ -16,14 +16,14 @@ public class FavoriteFolderController {
         this.favoriteFolderService = favoriteFolderService;
     }
 
+    @GetMapping("/getFolders/{userName}")
+    public Set<FavoriteFolderModel> getFoldersByUserName(@PathVariable String userName) {
+        return favoriteFolderService.getFoldersByUserName(userName);
+    }
+
     @PostMapping("/addFolder/{userName}/{folderName}/{colorHex}")
     public void addFavoriteFolder(@PathVariable String userName, @PathVariable String folderName, @PathVariable String colorHex) {
         favoriteFolderService.addFavoriteFolder(userName, folderName, colorHex);
-    }
-
-    @DeleteMapping("/deleteFolder/{userName}/{folderName}")
-    public void deleteFavoriteFolder(@PathVariable String userName, @PathVariable String folderName) {
-        favoriteFolderService.deleteFavoriteFolder(userName, folderName);
     }
 
     @PutMapping("/renameFolder/{userName}/{oldFolderName}/{newFolderName}")
@@ -36,8 +36,8 @@ public class FavoriteFolderController {
         favoriteFolderService.changeFavoriteFolderColor(userName, folderName, newColor);
     }
 
-    @GetMapping("/getFolders/{userName}")
-    public Set<FavoriteFolderModel> getFoldersByUserName(@PathVariable String userName) {
-        return favoriteFolderService.getFoldersByUserName(userName);
+    @DeleteMapping("/deleteFolder/{userName}/{folderName}")
+    public void deleteFavoriteFolder(@PathVariable String userName, @PathVariable String folderName) {
+        favoriteFolderService.deleteFavoriteFolder(userName, folderName);
     }
 }
