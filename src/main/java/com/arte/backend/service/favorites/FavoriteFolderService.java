@@ -35,16 +35,16 @@ public class FavoriteFolderService {
     }
 
     @Transactional
-    public void deleteFavoriteFolder(String userName, String folderName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void deleteFavoriteFolder(String email, String folderName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders().removeIf(folder -> folder.getName().equals(folderName));
         }
     }
 
     @Transactional
-    public void renameFavoriteFolder(String userName, String oldFolderName, String newFolderName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void renameFavoriteFolder(String email, String oldFolderName, String newFolderName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
                 if (folder.getName().equals(oldFolderName)) {
@@ -56,8 +56,8 @@ public class FavoriteFolderService {
     }
 
     @Transactional
-    public void changeFavoriteFolderColor(String userName, String folderName, String color) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void changeFavoriteFolderColor(String email, String folderName, String color) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
                 if (folder.getName().equals(folderName)) {

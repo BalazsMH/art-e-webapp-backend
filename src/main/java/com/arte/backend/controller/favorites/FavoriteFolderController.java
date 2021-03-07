@@ -33,18 +33,24 @@ public class FavoriteFolderController {
         favoriteFolderService.addFavoriteFolder(email, folderName, colorHex);
     }
 
-    @PutMapping("/renameFolder/{userName}/{oldFolderName}/{newFolderName}")
-    public void renameFavoriteFolder(@PathVariable String userName, @PathVariable String oldFolderName, @PathVariable String newFolderName) {
-        favoriteFolderService.renameFavoriteFolder(userName, oldFolderName, newFolderName);
+    @PutMapping("/renameFolder/{oldFolderName}/{newFolderName}")
+    public void renameFavoriteFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String oldFolderName, @PathVariable String newFolderName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoriteFolderService.renameFavoriteFolder(email, oldFolderName, newFolderName);
     }
 
-    @PutMapping("/changeFolderColor/{userName}/{folderName}/{newColor}")
-    public void changeFavoriteFolderColor(@PathVariable String userName, @PathVariable String folderName, @PathVariable String newColor) {
-        favoriteFolderService.changeFavoriteFolderColor(userName, folderName, newColor);
+    @PutMapping("/changeFolderColor/{folderName}/{newColor}")
+    public void changeFavoriteFolderColor(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName, @PathVariable String newColor) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoriteFolderService.changeFavoriteFolderColor(email, folderName, newColor);
     }
 
-    @DeleteMapping("/deleteFolder/{userName}/{folderName}")
-    public void deleteFavoriteFolder(@PathVariable String userName, @PathVariable String folderName) {
-        favoriteFolderService.deleteFavoriteFolder(userName, folderName);
+    @DeleteMapping("/deleteFolder/{folderName}")
+    public void deleteFavoriteFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoriteFolderService.deleteFavoriteFolder(email, folderName);
     }
 }

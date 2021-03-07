@@ -24,8 +24,8 @@ public class FavoritesService {
         this.favoriteHelper = favoriteHelper;
     }
 
-    public Set<FavoritesModel> getFavoritesByUserName(String userName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public Set<FavoritesModel> getFavoritesByUserName(String email) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Set<Favorite> favorites = favoriteCollection.getFavorites();
 
@@ -34,8 +34,8 @@ public class FavoritesService {
         return null;
     }
 
-    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(String userName, String folderName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(String email, String folderName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Optional<FavoriteFolder> favoriteFolder = favoriteCollection.getFavoriteFolders()
                     .stream()
@@ -48,20 +48,20 @@ public class FavoritesService {
         return null;
     }
 
-    public void addToFavorites(String userName, String objectName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void addToFavorites(String email, String objectName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Favorite newFavorite = Favorite.builder()
                     .objectNumber(objectName)
                     .build();
             favoriteCollection.getFavorites().add(newFavorite);
 
-            userRepository.save(userRepository.findByUserName(userName).get());
+            userRepository.save(userRepository.findByEmail(email).get());
         }
     }
 
-    public void addToFavorites(String userName, String objectName, String folderName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void addToFavorites(String email, String objectName, String folderName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Optional<Favorite> favorite = favoriteCollection.getFavorites().stream().filter(f -> f.getObjectNumber().equals(objectName)).findFirst();
             if (favorite.isPresent()) {
@@ -70,14 +70,14 @@ public class FavoritesService {
                         .findFirst();
                 favoriteFolder.ifPresent(folder -> folder.getFavorites().add(favorite.get()));
             }
-            userRepository.save(userRepository.findByUserName(userName).get());
+            userRepository.save(userRepository.findByEmail(email).get());
         }
     }
 
-    public boolean isFavoriteByObjectName(String userName, String objectName) {
+    public boolean isFavoriteByObjectName(String email, String objectName) {
         long filteredSize = 0;
 
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             filteredSize = favoriteCollection.getFavorites().stream()
                     .filter(fav -> fav.getObjectNumber().equals(objectName))
@@ -88,8 +88,8 @@ public class FavoritesService {
     }
 
     @Transactional
-    public void deleteFavoriteByObjectName(String userName, String objectName) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(userName);
+    public void deleteFavoriteByObjectName(String email, String objectName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders()
                     .forEach(fol -> fol.getFavorites()
@@ -135,5 +135,4 @@ public class FavoritesService {
         }
         return Optional.empty();
     }
-
 }
