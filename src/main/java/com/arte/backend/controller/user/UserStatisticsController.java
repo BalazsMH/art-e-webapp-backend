@@ -27,8 +27,11 @@ public class UserStatisticsController {
     }
 
     @PostMapping("/update-statistics")
-    public void updateUserStatistics(@RequestBody String userData) throws JsonProcessingException {
-        userStatisticsService.updateUserStatistics(userData);
+    public void updateUserStatistics(HttpServletRequest request, @RequestBody String userData) throws JsonProcessingException {
+        String token = jwtTokenServices.getTokenFromRequest(request);
+        if (token != null) {
+            userStatisticsService.updateUserStatistics(userData, token);
+        }
     }
 }
 

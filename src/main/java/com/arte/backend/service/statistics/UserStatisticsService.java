@@ -30,10 +30,10 @@ public class UserStatisticsService {
         return user.map(UserData::getUserStatistics).orElse(null);
     }
 
-    public void updateUserStatistics(String userData) throws JsonProcessingException {
+    public void updateUserStatistics(String userData, String token) throws JsonProcessingException {
         UserStatisticsDataModel newUserStatistics = new ObjectMapper().readValue(userData, UserStatisticsDataModel.class);
-        Optional<UserData> user = userRepository.findByUserName(newUserStatistics.getUserStatisticsModel().getUserName());
-
+        String email = jwtTokenServices.getUserNameFromTokenInfo(token);
+        Optional<UserData> user = userRepository.findByEmail(email);
         UserStatistics userStatistics = user.map(UserData::getUserStatistics).orElse(null);;
 
         if (userStatistics != null) {
