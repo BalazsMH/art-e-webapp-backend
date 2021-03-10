@@ -1,7 +1,6 @@
-package com.arte.backend.repository;
+package com.arte.backend.model.database.repository;
 
 import com.arte.backend.model.database.entity.RankData;
-import com.arte.backend.model.database.entity.RankName;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

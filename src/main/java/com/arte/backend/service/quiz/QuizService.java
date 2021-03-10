@@ -7,17 +7,20 @@ import com.arte.backend.util.quiz.PageNumberGenerator;
 import com.arte.backend.util.quiz.QuizGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class QuizService {
     private final String resultsPerPage = "20";
     private final String type = "painting";
 
-    QuizDataProviderService quizDataProviderService;
-    PageNumberGenerator pageNumberGenerator;
+    private final QuizDataProviderService quizDataProviderService;
+    private final PageNumberGenerator pageNumberGenerator;
+
+    public QuizService(QuizDataProviderService quizDataProviderService, PageNumberGenerator pageNumberGenerator) {
+        this.quizDataProviderService = quizDataProviderService;
+        this.pageNumberGenerator = pageNumberGenerator;
+    }
 
     public String getQuiz(String quizType) throws JsonProcessingException {
         String pageNumber = pageNumberGenerator.generateRandomPageNumber();
@@ -29,8 +32,7 @@ public class QuizService {
 
         QuizGenerator quizGenerator = new QuizGenerator(artObjectsList, type.getQuizType());
         QuizModel quiz = quizGenerator.generateQuiz(new QuizModel());
-        String quizJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(quiz);
 
-        return quizJson;
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(quiz);
     }
 }

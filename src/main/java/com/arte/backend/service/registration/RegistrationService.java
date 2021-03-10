@@ -1,10 +1,9 @@
 package com.arte.backend.service.registration;
 
 import com.arte.backend.model.database.entity.*;
-import com.arte.backend.repository.UserRankRepository;
-import com.arte.backend.repository.UserRepository;
+import com.arte.backend.model.database.repository.UserRankRepository;
+import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.service.email.CustomEmailService;
-import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,18 +13,21 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class RegistrationService {
-    UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
-    CustomEmailService customEmailService;
-    UserRankRepository userRankRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomEmailService customEmailService;
+    private final UserRankRepository userRankRepository;
+
+    public RegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomEmailService customEmailService, UserRankRepository userRankRepository) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.customEmailService = customEmailService;
+        this.userRankRepository = userRankRepository;
+    }
 
     public JSONObject registerUser(String userName, String firstName, String lastName,
                                    String email, String password, String birthDate) {
-
-        System.out.println(userName + firstName + lastName + email + password + birthDate);
-
         boolean emailAlreadyExists = userRepository.existsByEmail(email);
 
         JSONObject response = new JSONObject();

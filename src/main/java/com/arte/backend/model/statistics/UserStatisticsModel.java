@@ -10,8 +10,6 @@ import java.io.Serializable;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserStatisticsModel implements Serializable {
-    @JsonProperty("userName")
-    private String userName;
     @JsonProperty("actualXp")
     private int actualXp;
     @JsonProperty("allAnswers")

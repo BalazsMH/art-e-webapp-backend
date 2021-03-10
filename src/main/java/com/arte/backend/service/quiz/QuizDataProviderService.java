@@ -1,24 +1,28 @@
 package com.arte.backend.service.quiz;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
-import static com.arte.backend.config.Global.API_COLLECTION_URL;
-
 @Service
-@AllArgsConstructor
 public class QuizDataProviderService {
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
+
+    @Value("${api.collection.url}")
+    private String apiCollectionUrl;
+
+    public QuizDataProviderService(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
     public String getDataForQuiz(String pageNumber, String resultsPerPage, String type,
                              Boolean imgOnly) {
 
         String response = webClientBuilder.build()
                 .get()
-                .uri(API_COLLECTION_URL, uriBuilder -> uriBuilder
+                .uri(apiCollectionUrl, uriBuilder -> uriBuilder
                         .queryParamIfPresent("p", Optional.ofNullable(pageNumber))
                         .queryParamIfPresent("ps", Optional.ofNullable(resultsPerPage))
                         .queryParamIfPresent("type", Optional.ofNullable(type))

@@ -1,84 +1,63 @@
 package com.arte.backend.controller.favorites;
 
-import com.arte.backend.model.database.entity.FavoriteFolder;
-import com.arte.backend.model.favorites.FavoriteFolderModel;
 import com.arte.backend.model.favorites.FavoritesModel;
+import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.favorites.FavoritesService;
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
 @RequestMapping("/favorites")
-@AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class FavoritesController {
-    private FavoritesService favoritesService;
+    private final FavoritesService favoritesService;
+    private final JwtTokenServices jwtTokenServices;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/{userName}")
-    public Set<FavoritesModel> getFavoritesByUserId(@PathVariable @NotNull String userName) {
-        return favoritesService.getFavoritesByUserName(userName);
+    public FavoritesController(FavoritesService favoritesService, JwtTokenServices jwtTokenServices) {
+        this.favoritesService = favoritesService;
+        this.jwtTokenServices = jwtTokenServices;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/byFolder/{userName}/{folderName}")
-    public Set<FavoritesModel> getFavoritesByUserIdAndFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName) {
-        return favoritesService.getFavoritesByUserNameAndFolder(userName, folderName);
+    @GetMapping("/")
+    public Set<FavoritesModel> getFavoritesByUserName(@RequestHeader("Authorization") String bearerToken) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        return favoritesService.getFavoritesByUserName(email);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/{userName}/{objectId}")
-    public boolean isFavoriteByObjectId(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
-        return favoritesService.isFavoriteByObjectId(userName, objectId);
+    @GetMapping("/isFavorite/{objectName}")
+    public boolean isFavoriteByObjectName(@RequestHeader("Authorization") String bearerToken, @PathVariable String objectName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        return favoritesService.isFavoriteByObjectName(email, objectName);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/{userName}/{objectId}")
-    public void addToFavorites(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
-        favoritesService.addToFavorites(userName, objectId);
+    @GetMapping("/getByFolder/{folderName}")
+    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        return favoritesService.getFavoritesByUserNameAndFolder(email, folderName);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/{userName}/{objectId}/{folderName}")
-    public void addToFavorites(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId, @PathVariable(required = false) String folderName) {
-        favoritesService.addToFavorites(userName, objectId, folderName);
+    @PostMapping("/{objectName}")
+    public void addToFavorites (@RequestHeader("Authorization") String bearerToken, @PathVariable String objectName){
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoritesService.addToFavorites(email, objectName);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/{userName}/{objectId}")
-    public void deleteFavoriteByObjectId(@PathVariable @NotNull String userName, @PathVariable @NotNull String objectId) {
-        favoritesService.deleteFavoriteByObjectId(userName, objectId);
+    @PostMapping("/addFavorite/{objectName}/{folderName}")
+    public void addToFavoriteFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String objectName, @PathVariable(required = false) String folderName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoritesService.addToFavorites(email, objectName, folderName);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/addFolder/{userName}/{folderName}/{colorHex}")
-    public void addFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName, @PathVariable @NotNull String colorHex) {
-        favoritesService.addFavoriteFolder(userName, folderName, colorHex);
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/deleteFolder/{userName}/{folderName}")
-    public void deleteFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName) {
-        favoritesService.deleteFavoriteFolder(userName, folderName);
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/renameFolder/{userName}/{oldFolderName}/{newFolderName}")
-    public void renameFavoriteFolder(@PathVariable @NotNull String userName, @PathVariable @NotNull String oldFolderName, @PathVariable @NotNull String newFolderName) {
-        favoritesService.renameFavoriteFolder(userName, oldFolderName, newFolderName);
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/changeColor/{userName}/{folderName}/{newColor}")
-    public void changeFavoriteFolderColor(@PathVariable @NotNull String userName, @PathVariable @NotNull String folderName, @PathVariable @NotNull String newColor) {
-        favoritesService.changeFavoriteFolderColor(userName, folderName, newColor);
-    }
-
-    @CrossOrigin//(origins = "http://localhost:3000")
-    @GetMapping("/getFolders/{userName}")
-    public Set<FavoriteFolderModel> getFoldersByUserName(@PathVariable @NotNull String userName) {
-        return favoritesService.getFoldersByUserName(userName);
+    @DeleteMapping("/{objectName}")
+    public void deleteFavoriteByObjectName(@RequestHeader("Authorization") String bearerToken, @PathVariable String objectName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoritesService.deleteFavoriteByObjectName(email, objectName);
     }
 }

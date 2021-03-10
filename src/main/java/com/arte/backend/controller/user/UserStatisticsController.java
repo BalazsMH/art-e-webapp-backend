@@ -1,29 +1,37 @@
 package com.arte.backend.controller.user;
 
 import com.arte.backend.model.database.entity.UserStatistics;
+import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.statistics.UserStatisticsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/user")
-@AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserStatisticsController {
+    private final UserStatisticsService userStatisticsService;
+    private final JwtTokenServices jwtTokenServices;
 
-    UserStatisticsService userStatisticsService;
-
-    @CrossOrigin
-    @PostMapping("/{userName}/statistics")
-    public UserStatistics getStatistics(@PathVariable String userName) {
-        return userStatisticsService.getUserStatistics(userName);
+    public UserStatisticsController(UserStatisticsService userStatisticsService, JwtTokenServices jwtTokenServices) {
+        this.userStatisticsService = userStatisticsService;
+        this.jwtTokenServices = jwtTokenServices;
     }
 
-    @CrossOrigin
+    @PostMapping("/statistics")
+    public UserStatistics getStatistics(HttpServletRequest request) {
+        String token = jwtTokenServices.getTokenFromRequest(request);
+        return token != null ? userStatisticsService.getUserStatistics(token) : null;
+    }
+
     @PostMapping("/update-statistics")
-    public void updateUserStatistics(@RequestBody String userData) throws JsonProcessingException {
-        userStatisticsService.updateUserStatistics(userData);
+    public void updateUserStatistics(HttpServletRequest request, @RequestBody String userData) throws JsonProcessingException {
+        String token = jwtTokenServices.getTokenFromRequest(request);
+        if (token != null) {
+            userStatisticsService.updateUserStatistics(userData, token);
+        }
     }
 }
 
