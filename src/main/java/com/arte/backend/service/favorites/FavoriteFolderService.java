@@ -43,25 +43,13 @@ public class FavoriteFolderService {
     }
 
     @Transactional
-    public void renameFavoriteFolder(String email, String oldFolderName, String newFolderName) {
+    public void modifyFavoriteFolder(String email, String oldFolderName, String newFolderName, String newColor) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
                 if (folder.getName().equals(oldFolderName)) {
                     folder.setName(newFolderName);
-                    break;
-                }
-            }
-        }
-    }
-
-    @Transactional
-    public void changeFavoriteFolderColor(String email, String folderName, String color) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
-        if (favoriteCollection != null) {
-            for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
-                if (folder.getName().equals(folderName)) {
-                    folder.setColorHex(color);
+                    folder.setColorHex(newColor);
                     break;
                 }
             }
