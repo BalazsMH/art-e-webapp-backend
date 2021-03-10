@@ -5,7 +5,7 @@ import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.favorites.FavoriteFolderService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/favoriteFolder")
@@ -20,7 +20,7 @@ public class FavoriteFolderController {
     }
 
     @GetMapping("/getFolders")
-    public Set<FavoriteFolderModel> getFoldersByUserName(@RequestHeader("Authorization") String bearerToken) {
+    public List<FavoriteFolderModel> getFoldersByUserName(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         return favoriteFolderService.getFoldersByUserName(email);
