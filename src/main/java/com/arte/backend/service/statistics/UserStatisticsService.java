@@ -71,7 +71,7 @@ public class UserStatisticsService {
         }
 
         Optional<RankData> newRankDataOptional = userRankRepository.findById(newRankId);
-        
+
         return newRankDataOptional.get();
 
     }
