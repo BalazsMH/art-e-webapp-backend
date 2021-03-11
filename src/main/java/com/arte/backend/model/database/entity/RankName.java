@@ -6,9 +6,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RankName {
-    ROOKIE("Rookie"),
-    ARTIST("Artist");
-    //TODO:Define rank names that make sense
+    SECONDLIEUTENANT("Art Second Lieutenant"),
+    FIRSTLIEUTENANT("Art First Lieutenant"),
+    CAPTAIN("Art Captain"),
+    MAJOR("Art Major"),
+    LIEUTENANTCOLONEL("Art Lieutenant Colonel"),
+    COLONEL("Art Staff Colonel"),
+    BRIGADIERGENERAL("Art Brigadier General"),
+    MAJORGENERAL("Art Major General"),
+    LIEUTENANTGENERAL("Art Lieutenant General"),
+    GENERAL("Art General");
 
     private final String name;
 
