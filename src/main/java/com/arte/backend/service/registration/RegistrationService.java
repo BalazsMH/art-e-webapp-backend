@@ -29,11 +29,13 @@ public class RegistrationService {
     public JSONObject registerUser(String userName, String firstName, String lastName,
                                    String email, String password, String birthDate) {
         boolean emailAlreadyExists = userRepository.existsByEmail(email);
+        boolean usernameAlreadyExists = userRepository.existsByUserName(userName);
 
         JSONObject response = new JSONObject();
         response.put("emailNotAvailable", emailAlreadyExists);
+        response.put("usernameNotAvailable", usernameAlreadyExists);
 
-        if (emailAlreadyExists) { return response; }
+        if (emailAlreadyExists || usernameAlreadyExists) { return response; }
 
         Optional<RankData> rankDataOptional = userRankRepository.findById((long) 1);
         RankData rankData = null;
