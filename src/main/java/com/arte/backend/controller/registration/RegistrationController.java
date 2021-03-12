@@ -28,7 +28,7 @@ public class RegistrationController {
                                    @RequestParam( name = "birthDate") String birthDate) {
 
         JSONObject responseJson = registrationService.registerUser(userName, firstName, lastName, email, password, birthDate);
-        if (responseJson.getBoolean("emailNotAvailable")) {
+        if (responseJson.getBoolean("emailNotAvailable") || responseJson.getBoolean("usernameNotAvailable")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(responseJson.toString());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(responseJson.toString());
