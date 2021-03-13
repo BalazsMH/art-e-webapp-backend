@@ -15,8 +15,9 @@ body {
     text-align: center;
 }
 
-#logo {
-    max-height: 10rem;
+.arte-logo {
+    height: 20px;
+
 }
 
 .mail-body {

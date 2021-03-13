@@ -5,17 +5,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="../static/styles/mailStyles.css">
 </head>
-<body>
-    <img id="logo" alt="logo" src="../static/images/arte.png" th:src="|cid:${logo}|">
-    <h1 class="title" th:text="|Welcome to Art-E, ${username}!|">Welcome to Art-E!</h1>
-    <div class="mail-body">
-        <p>We would like to welcome You into our ever-growing community of art lovers!</p>
-        <p>Start exploring or take some of our quizzes! Earn badges by reaching experience milestones and share your achievements with friends!<br> In any case, have fun learning!</p>
-        <p>The Art-E Team</p>
-    </div>
-    <a href="https://www.google.hu/">Start browsing</a>
+<body style="
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    height: 100vh;
+    background-color: rgb(25, 27, 28);
+    color: rgb(232, 230, 227);
+">
+    <table width="100%" border="0" cellspacing="0" cellpadding="10" align="center">
+        <tr>
+            <td align="center">
+                <!--[if mso]>
+                <table width="30%">
+                    <tr>
+                        <td align="center">
+                            <img width="200" class="arte-logo" src="cid:logo" alt="logo"><br>
+                        </td>
+                    </tr>
+                </table>
+                <![endif]-->
+                <!--[if !mso]> <!---->
+                <img width="200" class="arte-logo" src="cid:logo" alt="logo"><br>
+                <!-- <![endif]-->
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <h1 style="text-align: center" class="title" th:text="|Welcome to Art-E, ${username}!|">Welcome to Art-E!</h1><br>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div class="mail-body" style="
+                    padding: 1rem;
+                    width: 50%;
+                    text-align: justify;
+                ">
+                    <p>We would like to welcome You into our ever-growing community of art lovers!</p>
+                    <p>Start exploring or take some of our quizzes! Earn badges by reaching experience milestones and share your achievements with friends!<br> In any case, have fun learning!</p>
+                    <p>The Art-E Team</p>
+                </div><br>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <h2><a href="https://www.google.hu/" style="text-align: center">Start browsing</a><br></h2>
+            </td>
+        </tr>
+    </table>
 
 </body>
 </html>
