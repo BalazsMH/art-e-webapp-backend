@@ -22,6 +22,7 @@ public class UserData {
     private long id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String userName;
     @Column(unique = true)
     private String email;
