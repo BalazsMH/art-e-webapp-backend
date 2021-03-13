@@ -29,7 +29,6 @@ public class CustomEmailService {
         Map<String, Object> variables = new HashMap<>();
         variables.put("username", username);
         variables.put("useremail", userEmail);
-        variables.put("logo", "logo.png");
 
         String output = templateEngineConfiguration
                             .templateEngineProvider()
@@ -40,8 +39,9 @@ public class CustomEmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setSubject("Welcome to Art-E!");
             helper.setTo(userEmail);
-            helper.addInline("logo.png", new ClassPathResource("static/images/arte.png"), "image/png");
             helper.setText(output, true);
+            helper.addInline("logo", new ClassPathResource("static/images/arte.png"), "image/png");
+
 
             javaMailSender.send(message);
             log.info("Successfully sent registration email to: " + userEmail);
