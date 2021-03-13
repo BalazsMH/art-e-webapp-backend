@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -32,6 +33,11 @@ public class UserStatisticsController {
         if (token != null) {
             userStatisticsService.updateUserStatistics(userData, token);
         }
+    }
+
+    @GetMapping("/get-available-ranks")
+    public List<String> getAllRanks(){
+        return userStatisticsService.getAllRankNames();
     }
 }
 
