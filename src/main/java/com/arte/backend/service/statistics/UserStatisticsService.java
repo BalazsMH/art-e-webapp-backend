@@ -12,7 +12,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserStatisticsService {
@@ -73,6 +75,10 @@ public class UserStatisticsService {
         Optional<RankData> newRankDataOptional = userRankRepository.findById(newRankId);
 
         return newRankDataOptional.get();
+    }
 
+    public List<String> getAllRankNames(){
+        List<RankData> ranks = userRankRepository.findBy();
+        return ranks.stream().map(rankData -> rankData.getName().getName()).collect(Collectors.toList());
     }
 }
