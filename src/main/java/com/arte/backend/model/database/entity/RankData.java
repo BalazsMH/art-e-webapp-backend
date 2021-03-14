@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "rank_data")
 public class RankData {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
     @Enumerated
