@@ -4,7 +4,7 @@ import com.arte.backend.service.browse.MuseumApiDataProviderService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.address}")
 public class BrowseController {
     private final MuseumApiDataProviderService museumApiDataProviderService;
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.address}")
 public class FavoritesController {
     private final FavoritesService favoritesService;
     private final JwtTokenServices jwtTokenServices;
