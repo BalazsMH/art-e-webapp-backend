@@ -63,10 +63,6 @@ class ConverterTest {
     }
 
     @Test
-    void favoriteFolderModelSetToSortedListByName() {
-    }
-
-    @Test
     void favoriteFolderModelSetToSortedListByName_inputNull_returnNull() {
         Set<FavoriteFolderModel> input = null;
         List<FavoriteFolderModel> actual = Converter.favoriteFolderModelSetToSortedListByName(input);
@@ -75,7 +71,7 @@ class ConverterTest {
     }
 
     @Test
-    void favoriteFolderModelSetToSortedListByName_inputFavoriteFolderModelSet_returnListOrderedByLongTitle() {
+    void favoriteFolderModelSetToSortedListByName_inputFavoriteFolderModelSet_returnListOrderedByName() {
         FavoriteFolderModel firstTestCase = FavoriteFolderModel.builder()
                 .name("First test case")
                 .id(1L)
