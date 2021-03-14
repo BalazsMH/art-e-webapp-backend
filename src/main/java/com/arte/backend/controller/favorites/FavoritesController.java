@@ -60,4 +60,11 @@ public class FavoritesController {
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         favoritesService.deleteFavoriteByObjectName(email, objectName);
     }
+
+    @DeleteMapping("/removeFromFolder/{folderName}/{objectName}")
+    public void removeFavoriteFromFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName, @PathVariable String objectName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoritesService.removeFavoriteFromFolder(email, folderName, objectName);
+    }
 }

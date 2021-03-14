@@ -100,6 +100,18 @@ public class FavoritesService {
         }
     }
 
+    @Transactional
+    public void removeFavoriteFromFolder(String email, String folderName, String objectName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
+        if (favoriteCollection != null) {
+            favoriteCollection.getFavoriteFolders()
+                    .stream()
+                    .filter(fol -> fol.getName().equals(folderName))
+                    .forEach(fol -> fol.getFavorites()
+                            .removeIf(f -> f.getObjectNumber().equals(objectName)));
+        }
+    }
+
     private Set<FavoritesModel> favModelFromEntity(Set<Favorite> favoriteSet) {
         if (favoriteSet == null) { return null; }
         Set<FavoritesModel> favorites = new HashSet<>();
