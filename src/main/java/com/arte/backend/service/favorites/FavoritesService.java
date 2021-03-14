@@ -5,6 +5,7 @@ import com.arte.backend.model.database.entity.*;
 import com.arte.backend.model.favorites.FavoritesModel;
 import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.service.details.ArtDetailsProviderService;
+import com.arte.backend.util.helper.Converter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,17 @@ public class FavoritesService {
         this.favoriteHelper = favoriteHelper;
     }
 
-    public Set<FavoritesModel> getFavoritesByUserName(String email) {
+    public List<FavoritesModel> getFavoritesByUserName(String email) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Set<Favorite> favorites = favoriteCollection.getFavorites();
 
-            return favorites != null ? favModelFromEntity(favorites) : null;
+            return Converter.favoritesModelSetToSortedListByTitle(favModelFromEntity(favorites));
         }
         return null;
     }
 
-    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(String email, String folderName) {
+    public List<FavoritesModel> getFavoritesByUserNameAndFolder(String email, String folderName) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Optional<FavoriteFolder> favoriteFolder = favoriteCollection.getFavoriteFolders()
@@ -43,7 +44,7 @@ public class FavoritesService {
                     .findFirst();
             Set<Favorite> favorites = favoriteFolder.map(FavoriteFolder::getFavorites).orElse(null);
 
-            return favorites != null ? favModelFromEntity(favorites) : null;
+            return Converter.favoritesModelSetToSortedListByTitle(favModelFromEntity(favorites));
         }
         return null;
     }
@@ -99,7 +100,20 @@ public class FavoritesService {
         }
     }
 
+    @Transactional
+    public void removeFavoriteFromFolder(String email, String folderName, String objectName) {
+        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
+        if (favoriteCollection != null) {
+            favoriteCollection.getFavoriteFolders()
+                    .stream()
+                    .filter(fol -> fol.getName().equals(folderName))
+                    .forEach(fol -> fol.getFavorites()
+                            .removeIf(f -> f.getObjectNumber().equals(objectName)));
+        }
+    }
+
     private Set<FavoritesModel> favModelFromEntity(Set<Favorite> favoriteSet) {
+        if (favoriteSet == null) { return null; }
         Set<FavoritesModel> favorites = new HashSet<>();
 
         for (Favorite favorite : favoriteSet) {

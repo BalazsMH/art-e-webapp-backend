@@ -5,7 +5,7 @@ import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.favorites.FavoritesService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
@@ -20,7 +20,7 @@ public class FavoritesController {
     }
 
     @GetMapping("/")
-    public Set<FavoritesModel> getFavoritesByUserName(@RequestHeader("Authorization") String bearerToken) {
+    public List<FavoritesModel> getFavoritesByUserName(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         return favoritesService.getFavoritesByUserName(email);
@@ -34,7 +34,7 @@ public class FavoritesController {
     }
 
     @GetMapping("/getByFolder/{folderName}")
-    public Set<FavoritesModel> getFavoritesByUserNameAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
+    public List<FavoritesModel> getFavoritesByUserNameAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         return favoritesService.getFavoritesByUserNameAndFolder(email, folderName);
@@ -59,5 +59,12 @@ public class FavoritesController {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         favoritesService.deleteFavoriteByObjectName(email, objectName);
+    }
+
+    @DeleteMapping("/removeFromFolder/{folderName}/{objectName}")
+    public void removeFavoriteFromFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName, @PathVariable String objectName) {
+        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
+        String email = jwtTokenServices.getEmailFromTokenInfo(token);
+        favoritesService.removeFavoriteFromFolder(email, folderName, objectName);
     }
 }

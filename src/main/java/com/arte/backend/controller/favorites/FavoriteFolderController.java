@@ -5,7 +5,7 @@ import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.favorites.FavoriteFolderService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/favoriteFolder")
@@ -20,7 +20,7 @@ public class FavoriteFolderController {
     }
 
     @GetMapping("/getFolders")
-    public Set<FavoriteFolderModel> getFoldersByUserName(@RequestHeader("Authorization") String bearerToken) {
+    public List<FavoriteFolderModel> getFoldersByUserName(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         return favoriteFolderService.getFoldersByUserName(email);
@@ -33,18 +33,11 @@ public class FavoriteFolderController {
         favoriteFolderService.addFavoriteFolder(email, folderName, colorHex);
     }
 
-    @PutMapping("/renameFolder/{oldFolderName}/{newFolderName}")
-    public void renameFavoriteFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String oldFolderName, @PathVariable String newFolderName) {
+    @PutMapping("/changeFolder/{oldFolderName}/{newFolderName}/{newColor}")
+    public void renameFavoriteFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String oldFolderName, @PathVariable String newFolderName, @PathVariable String newColor) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        favoriteFolderService.renameFavoriteFolder(email, oldFolderName, newFolderName);
-    }
-
-    @PutMapping("/changeFolderColor/{folderName}/{newColor}")
-    public void changeFavoriteFolderColor(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName, @PathVariable String newColor) {
-        String token = jwtTokenServices.getTokenFromHeader(bearerToken);
-        String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        favoriteFolderService.changeFavoriteFolderColor(email, folderName, newColor);
+        favoriteFolderService.modifyFavoriteFolder(email, oldFolderName, newFolderName, newColor);
     }
 
     @DeleteMapping("/deleteFolder/{folderName}")

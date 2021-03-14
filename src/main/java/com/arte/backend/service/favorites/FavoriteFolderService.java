@@ -4,10 +4,12 @@ import com.arte.backend.model.database.entity.FavoriteCollection;
 import com.arte.backend.model.database.entity.FavoriteFolder;
 import com.arte.backend.model.favorites.FavoriteFolderModel;
 import com.arte.backend.model.database.repository.UserRepository;
+import com.arte.backend.util.helper.Converter;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -43,42 +45,31 @@ public class FavoriteFolderService {
     }
 
     @Transactional
-    public void renameFavoriteFolder(String email, String oldFolderName, String newFolderName) {
+    public void modifyFavoriteFolder(String email, String oldFolderName, String newFolderName, String newColor) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
                 if (folder.getName().equals(oldFolderName)) {
                     folder.setName(newFolderName);
+                    folder.setColorHex(newColor);
                     break;
                 }
             }
         }
     }
 
-    @Transactional
-    public void changeFavoriteFolderColor(String email, String folderName, String color) {
-        FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
-        if (favoriteCollection != null) {
-            for (FavoriteFolder folder : favoriteCollection.getFavoriteFolders()) {
-                if (folder.getName().equals(folderName)) {
-                    folder.setColorHex(color);
-                    break;
-                }
-            }
-        }
-    }
-
-    public Set<FavoriteFolderModel> getFoldersByUserName(String email) {
+    public List<FavoriteFolderModel> getFoldersByUserName(String email) {
         Set<FavoriteFolderModel> folderModels = new HashSet<>();
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             favoriteCollection.getFavoriteFolders()
                     .forEach(f -> folderModels.add(FavoriteFolderModel
                             .builder()
+                            .id(f.getId())
                             .name(f.getName())
                             .colorHex(f.getColorHex())
                             .build()));
         }
-        return folderModels;
+        return Converter.favoriteFolderModelSetToSortedListByName(folderModels);
     }
 }
