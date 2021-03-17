@@ -10,6 +10,6 @@ import lombok.Data;
 @Builder
 public class FavoritesModel {
     private String longTitle;
-    private WebImage headerImage;
+    private WebImage webImage;
     private String objectNumber;
 }

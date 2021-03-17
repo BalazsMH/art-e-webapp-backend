@@ -143,7 +143,7 @@ public class FavoritesService {
             FavoritesModel newFavorite = FavoritesModel.builder()
                     .longTitle(arts.getArtData().getLongTitle())
                     .objectNumber(objectId)
-                    .headerImage(arts.getArtData().getWebImage())
+                    .webImage(arts.getArtData().getWebImage())
                     .build();
             return Optional.of(newFavorite);
         }
