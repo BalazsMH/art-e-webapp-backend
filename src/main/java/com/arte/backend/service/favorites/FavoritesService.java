@@ -2,7 +2,7 @@ package com.arte.backend.service.favorites;
 
 import com.arte.backend.model.apiresponse.ArtObjectsList;
 import com.arte.backend.model.database.entity.*;
-import com.arte.backend.model.favorites.FavoritesModel;
+import com.arte.backend.model.artpiece.ArtPieceModel;
 import com.arte.backend.model.database.repository.UserRepository;
 import com.arte.backend.service.details.ArtDetailsProviderService;
 import com.arte.backend.util.helper.Converter;
@@ -25,7 +25,7 @@ public class FavoritesService {
         this.favoriteHelper = favoriteHelper;
     }
 
-    public List<FavoritesModel> getFavoritesByUserName(String email) {
+    public List<ArtPieceModel> getFavoritesByUserName(String email) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Set<Favorite> favorites = favoriteCollection.getFavorites();
@@ -35,7 +35,7 @@ public class FavoritesService {
         return null;
     }
 
-    public List<FavoritesModel> getFavoritesByUserNameAndFolder(String email, String folderName) {
+    public List<ArtPieceModel> getFavoritesByUserNameAndFolder(String email, String folderName) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Optional<FavoriteFolder> favoriteFolder = favoriteCollection.getFavoriteFolders()
@@ -112,14 +112,14 @@ public class FavoritesService {
         }
     }
 
-    private Set<FavoritesModel> favModelFromEntity(Set<Favorite> favoriteSet) {
+    private Set<ArtPieceModel> favModelFromEntity(Set<Favorite> favoriteSet) {
         if (favoriteSet == null) { return null; }
-        Set<FavoritesModel> favorites = new HashSet<>();
+        Set<ArtPieceModel> favorites = new HashSet<>();
 
         for (Favorite favorite : favoriteSet) {
             String objectNumber = favorite.getObjectNumber();
             ArtObjectsList apiData = getArtObjectsList(objectNumber);
-            Optional<FavoritesModel> newFavorite = generateFavoriteFromObject(apiData, objectNumber);
+            Optional<ArtPieceModel> newFavorite = generateFavoriteFromObject(apiData, objectNumber);
             newFavorite.ifPresent(favorites::add);
         }
 
@@ -139,9 +139,9 @@ public class FavoritesService {
         return completeData;
     }
 
-    private Optional<FavoritesModel> generateFavoriteFromObject(ArtObjectsList arts, String objectId) {
+    private Optional<ArtPieceModel> generateFavoriteFromObject(ArtObjectsList arts, String objectId) {
         if (arts != null) {
-            FavoritesModel newFavorite = FavoritesModel.builder()
+            ArtPieceModel newFavorite = ArtPieceModel.builder()
                     .longTitle(arts.getArtData().getLongTitle())
                     .objectNumber(objectId)
                     .webImage(arts.getArtData().getWebImage())
