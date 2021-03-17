@@ -3,6 +3,8 @@ package com.arte.backend.service.browse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
@@ -36,6 +38,7 @@ public class MuseumApiDataProviderService {
                 )
                 .retrieve()
                 .bodyToMono(String.class)
+                .onErrorResume(WebClientResponseException.class, e -> Mono.empty())
                 .block();
         return response;
     }
