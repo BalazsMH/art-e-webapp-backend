@@ -128,6 +128,7 @@ public class FavoritesService {
 
     private ArtObjectsList getArtObjectsList(String objectName) {
         String result = artDetailsProviderService.getArtDetails(objectName);
+        if (result == null) return null;
         ArtObjectsList completeData = null;
         try {
             completeData = new ObjectMapper().readValue(result, ArtObjectsList.class);
