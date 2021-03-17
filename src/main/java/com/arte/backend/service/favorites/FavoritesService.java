@@ -25,7 +25,7 @@ public class FavoritesService {
         this.favoriteHelper = favoriteHelper;
     }
 
-    public List<FavoritesModel> getFavoritesByUserName(String email) {
+    public List<FavoritesModel> getFavoritesByEmail(String email) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Set<Favorite> favorites = favoriteCollection.getFavorites();

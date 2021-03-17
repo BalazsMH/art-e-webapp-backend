@@ -23,7 +23,7 @@ public class FavoritesController {
     public List<FavoritesModel> getFavoritesByUserName(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        return favoritesService.getFavoritesByUserName(email);
+        return favoritesService.getFavoritesByEmail(email);
     }
 
     @GetMapping("/isFavorite/{objectName}")
