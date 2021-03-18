@@ -10,3 +10,5 @@ spring.profiles.active=production
 cron.expression=0 0 0 * * ?
 spring.datasource.data=classpath:data.sql
 spring.datasource.initialization-mode=always
+
+frontend.address=http://localhost:3000

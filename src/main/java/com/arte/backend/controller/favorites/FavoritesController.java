@@ -1,6 +1,6 @@
 package com.arte.backend.controller.favorites;
 
-import com.arte.backend.model.favorites.FavoritesModel;
+import com.arte.backend.model.artpiece.ArtPieceModel;
 import com.arte.backend.security.JwtTokenServices;
 import com.arte.backend.service.favorites.FavoritesService;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.address}")
 public class FavoritesController {
     private final FavoritesService favoritesService;
     private final JwtTokenServices jwtTokenServices;
@@ -20,7 +20,7 @@ public class FavoritesController {
     }
 
     @GetMapping("/")
-    public List<FavoritesModel> getFavoritesByUserName(@RequestHeader("Authorization") String bearerToken) {
+    public List<ArtPieceModel> getFavoritesByEmail(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
         return favoritesService.getFavoritesByEmail(email);
@@ -34,10 +34,10 @@ public class FavoritesController {
     }
 
     @GetMapping("/getByFolder/{folderName}")
-    public List<FavoritesModel> getFavoritesByUserNameAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
+    public List<ArtPieceModel> getFavoritesByEmailAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        return favoritesService.getFavoritesByUserNameAndFolder(email, folderName);
+        return favoritesService.getFavoritesByEmailAndFolder(email, folderName);
     }
 
     @PostMapping("/{objectName}")

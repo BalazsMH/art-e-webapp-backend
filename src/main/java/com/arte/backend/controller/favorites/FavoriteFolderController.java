@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favoriteFolder")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.address}")
 public class FavoriteFolderController {
     private final FavoriteFolderService favoriteFolderService;
     private final JwtTokenServices jwtTokenServices;

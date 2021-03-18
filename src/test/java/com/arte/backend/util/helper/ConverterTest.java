@@ -1,8 +1,8 @@
 package com.arte.backend.util.helper;
 
 import com.arte.backend.model.apiresponse.WebImage;
+import com.arte.backend.model.artpiece.ArtPieceModel;
 import com.arte.backend.model.favorites.FavoriteFolderModel;
-import com.arte.backend.model.favorites.FavoritesModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,41 +19,41 @@ class ConverterTest {
 
     @Test
     void favoritesModelSetToSortedListByTitle_inputNull_returnNull() {
-        Set<FavoritesModel> input = null;
-        List<FavoritesModel> actual = Converter.favoritesModelSetToSortedListByTitle(input);
+        Set<ArtPieceModel> input = null;
+        List<ArtPieceModel> actual = Converter.favoritesModelSetToSortedListByTitle(input);
 
         assertNull(actual);
     }
 
     @Test
     void favoritesModelSetToSortedListByTitle_inputFavoritesModelSet_returnListOrderedByLongTitle() {
-        FavoritesModel firstTestCase = FavoritesModel.builder()
+        ArtPieceModel firstTestCase = ArtPieceModel.builder()
                 .longTitle("First test case")
                 .objectNumber("123")
-                .headerImage(mock(WebImage.class))
+                .webImage(mock(WebImage.class))
                 .build();
 
-        FavoritesModel secondTestCase = FavoritesModel.builder()
+        ArtPieceModel secondTestCase = ArtPieceModel.builder()
                 .longTitle("Second test case")
                 .objectNumber("456")
-                .headerImage(mock(WebImage.class))
+                .webImage(mock(WebImage.class))
                 .build();
 
-        FavoritesModel lastTestCase = FavoritesModel.builder()
+        ArtPieceModel lastTestCase = ArtPieceModel.builder()
                 .longTitle("Last test case")
                 .objectNumber("789")
-                .headerImage(mock(WebImage.class))
+                .webImage(mock(WebImage.class))
                 .build();
 
-        Set<FavoritesModel> input = new HashSet<>(){{
+        Set<ArtPieceModel> input = new HashSet<>(){{
             add(firstTestCase);
             add(secondTestCase);
             add(lastTestCase);
         }};
 
-        List<FavoritesModel> actual = Converter.favoritesModelSetToSortedListByTitle(input);
+        List<ArtPieceModel> actual = Converter.favoritesModelSetToSortedListByTitle(input);
 
-        List<FavoritesModel> required = new ArrayList<>(){{
+        List<ArtPieceModel> required = new ArrayList<>(){{
            add(firstTestCase);
            add(lastTestCase);
            add(secondTestCase);

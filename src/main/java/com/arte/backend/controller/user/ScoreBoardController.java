@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.address}")
 public class ScoreBoardController {
 
     private final ScoreBoardService scoreBoardService;

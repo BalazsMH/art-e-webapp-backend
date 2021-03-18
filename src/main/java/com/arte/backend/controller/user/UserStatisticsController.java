@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.address}")
 public class UserStatisticsController {
     private final UserStatisticsService userStatisticsService;
     private final JwtTokenServices jwtTokenServices;
