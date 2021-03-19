@@ -20,10 +20,10 @@ public class FavoritesController {
     }
 
     @GetMapping("/")
-    public List<ArtPieceModel> getFavoritesByUserName(@RequestHeader("Authorization") String bearerToken) {
+    public List<ArtPieceModel> getFavoritesByEmail(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        return favoritesService.getFavoritesByUserName(email);
+        return favoritesService.getFavoritesByEmail(email);
     }
 
     @GetMapping("/isFavorite/{objectName}")
@@ -34,10 +34,10 @@ public class FavoritesController {
     }
 
     @GetMapping("/getByFolder/{folderName}")
-    public List<ArtPieceModel> getFavoritesByUserNameAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
+    public List<ArtPieceModel> getFavoritesByEmailAndFolder(@RequestHeader("Authorization") String bearerToken, @PathVariable String folderName) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        return favoritesService.getFavoritesByUserNameAndFolder(email, folderName);
+        return favoritesService.getFavoritesByEmailAndFolder(email, folderName);
     }
 
     @PostMapping("/{objectName}")

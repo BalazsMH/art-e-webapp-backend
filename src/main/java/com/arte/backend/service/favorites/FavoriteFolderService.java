@@ -58,7 +58,7 @@ public class FavoriteFolderService {
         }
     }
 
-    public List<FavoriteFolderModel> getFoldersByUserName(String email) {
+    public List<FavoriteFolderModel> getFoldersByEmail(String email) {
         Set<FavoriteFolderModel> folderModels = new HashSet<>();
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {

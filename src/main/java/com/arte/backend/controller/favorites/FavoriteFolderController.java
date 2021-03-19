@@ -23,7 +23,7 @@ public class FavoriteFolderController {
     public List<FavoriteFolderModel> getFoldersByUserName(@RequestHeader("Authorization") String bearerToken) {
         String token = jwtTokenServices.getTokenFromHeader(bearerToken);
         String email = jwtTokenServices.getEmailFromTokenInfo(token);
-        return favoriteFolderService.getFoldersByUserName(email);
+        return favoriteFolderService.getFoldersByEmail(email);
     }
 
     @PostMapping("/addFolder/{folderName}/{colorHex}")

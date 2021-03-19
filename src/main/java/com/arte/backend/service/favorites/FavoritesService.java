@@ -25,7 +25,7 @@ public class FavoritesService {
         this.favoriteHelper = favoriteHelper;
     }
 
-    public List<ArtPieceModel> getFavoritesByUserName(String email) {
+    public List<ArtPieceModel> getFavoritesByEmail(String email) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Set<Favorite> favorites = favoriteCollection.getFavorites();
@@ -35,7 +35,7 @@ public class FavoritesService {
         return null;
     }
 
-    public List<ArtPieceModel> getFavoritesByUserNameAndFolder(String email, String folderName) {
+    public List<ArtPieceModel> getFavoritesByEmailAndFolder(String email, String folderName) {
         FavoriteCollection favoriteCollection = favoriteHelper.getFavoriteCollection(email);
         if (favoriteCollection != null) {
             Optional<FavoriteFolder> favoriteFolder = favoriteCollection.getFavoriteFolders()
